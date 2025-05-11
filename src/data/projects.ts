@@ -3,7 +3,7 @@ import thea from '/src/assets/thea.jpg';
 import ella from '/src/assets/ella.jpg';
 import knights from '/src/assets/knights.jpg';
 import mathematrix from '/src/assets/mathematrix.jpg';
-import semac from '/src/assets/semac.jpg';
+import semac from '/src/assets/semc.jpg';
 import ideapool from '/src/assets/ideapool.jpg';
 import fitdeck from '/src/assets/fitdeck.jpg';
 import chatterbox from '/src/assets/chatterbox.jpg';
