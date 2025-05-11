@@ -35,7 +35,7 @@ const projectsData: Project[] = [
     description: 'A full-stack application for managing search engine marketing campaigns across multiple platforms.',
     image: imgSEMC,
     tags: ['React', 'Node.js', 'MongoDB', 'Express'],
-    github: 'https://github.com/Brajesh31/semc',
+    github: 'https://github.com/Brajesh31',
     demo: 'https://example.com',
     featured: true,
   },
@@ -45,7 +45,7 @@ const projectsData: Project[] = [
     description: 'An interactive tool for creating and solving mazes with customizable algorithms.',
     image: imgMazeCrafter,
     tags: ['JavaScript', 'Canvas API', 'Algorithms'],
-    github: 'https://github.com/Brajesh31/mazecrafter',
+    github: 'https://github.com/Brajesh31',
     featured: true,
   },
   {
@@ -54,7 +54,7 @@ const projectsData: Project[] = [
     description: 'A global exchange rate calculator with historical data visualization.',
     image: imgGlobex,
     tags: ['TypeScript', 'React', 'Chart.js', 'API'],
-    github: 'https://github.com/Brajesh31/globex',
+    github: 'https://github.com/Brajesh31',
     demo: 'https://example.com',
     featured: true,
   },
@@ -64,7 +64,7 @@ const projectsData: Project[] = [
     description: 'A collaborative flashcard application for studying with spaced repetition algorithms.',
     image: imgFireDeck,
     tags: ['React', 'Firebase', 'Tailwind CSS'],
-    github: 'https://github.com/Brajesh31/firedeck',
+    github: 'https://github.com/Brajesh31',
     demo: 'https://example.com',
     featured: true,
   },
@@ -74,7 +74,7 @@ const projectsData: Project[] = [
     description: 'Audio recognition system using machine learning to identify music and sounds.',
     image: imgAuric,
     tags: ['Python', 'TensorFlow', 'Web Audio API'],
-    github: 'https://github.com/Brajesh31/auric',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -83,7 +83,7 @@ const projectsData: Project[] = [
     description: 'Platform connecting people to exchange skills and knowledge in local communities.',
     image: imgSkillSwap,
     tags: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
-    github: 'https://github.com/Brajesh31/skillswap',
+    github: 'https://github.com/Brajesh31',
     demo: 'https://example.com',
     featured: false,
   },
@@ -93,7 +93,7 @@ const projectsData: Project[] = [
     description: 'A smart command-line Python-based personal assistant that performs everyday digital tasks.',
     image: imgEmma,
     tags: ['Python', 'APIs', 'CLI Interface', 'pyttsx3', 'SpeechRecognition'],
-    github: 'https://github.com/Brajesh31/emma',
+    github: 'https://github.com/Brajesh31',
     featured: true,
   },
   {
@@ -102,7 +102,7 @@ const projectsData: Project[] = [
     description: 'An AI-powered virtual mental health assistant using emotional response datasets.',
     image: imgThea,
     tags: ['Python', 'TensorFlow', 'NLP', 'Custom Dataset', 'Flask'],
-    github: 'https://github.com/Brajesh31/thea',
+    github: 'https://github.com/Brajesh31',
     featured: true,
   },
   {
@@ -111,7 +111,7 @@ const projectsData: Project[] = [
     description: 'Mobile AI chatbot for daily engagement and emotional support.',
     image: imgElla,
     tags: ['React Native', 'Expo', 'Firebase', 'ML Models'],
-    github: 'https://github.com/Brajesh31/ella',
+    github: 'https://github.com/Brajesh31',
     featured: true,
   },
   {
@@ -120,7 +120,7 @@ const projectsData: Project[] = [
     description: 'A 2D RPG game with quests, combat, and dungeon crawling mechanics.',
     image: imgKnights,
     tags: ['Flutter', 'Dart', 'Flame'],
-    github: 'https://github.com/Brajesh31/knights',
+    github: 'https://github.com/Brajesh31',
     featured: true,
   },
   {
@@ -129,7 +129,7 @@ const projectsData: Project[] = [
     description: 'Gamified math learning platform for children.',
     image: imgMathematrix,
     tags: ['HTML5', 'CSS3', 'JavaScript'],
-    github: 'https://github.com/Brajesh31/mathematrix',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -138,7 +138,7 @@ const projectsData: Project[] = [
     description: 'A collaboration space for developers to pitch and join ideas.',
     image: imgIdeapool,
     tags: ['MERN Stack', 'JWT', 'REST API'],
-    github: 'https://github.com/Brajesh31/ideapool',
+    github: 'https://github.com/Brajesh31',
     featured: true,
   },
   {
@@ -147,7 +147,7 @@ const projectsData: Project[] = [
     description: 'Social platform for fitness lovers to share routines and follow coaches.',
     image: imgFitdeck,
     tags: ['MERN Stack', 'Hooks', 'MongoDB'],
-    github: 'https://github.com/Brajesh31/fitdeck',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -156,7 +156,7 @@ const projectsData: Project[] = [
     description: 'A real-time socket-based chat app with dynamic rooms.',
     image: imgChatterbox,
     tags: ['Node.js', 'Socket.io', 'Express'],
-    github: 'https://github.com/Brajesh31/chatterbox',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -165,7 +165,7 @@ const projectsData: Project[] = [
     description: 'Food sharing app for reducing food wastage on campuses.',
     image: imgCapnshare,
     tags: ['Ruby on Rails', 'PostgreSQL', 'AWS S3'],
-    github: 'https://github.com/Brajesh31/capnshare',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -174,7 +174,7 @@ const projectsData: Project[] = [
     description: 'Compare job offers based on location-based indices.',
     image: imgCareerMapper,
     tags: ['Python', 'React.js', 'MySQL'],
-    github: 'https://github.com/Brajesh31/career-mapper',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -183,7 +183,7 @@ const projectsData: Project[] = [
     description: 'Track products, sales, and stock forecasts.',
     image: imgInventory,
     tags: ['Python', 'Django', 'SQLite'],
-    github: 'https://github.com/Brajesh31/inventory',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -192,7 +192,7 @@ const projectsData: Project[] = [
     description: 'Face detection and verification using OpenCV & TensorFlow.',
     image: imgFaceRecognition,
     tags: ['Python', 'OpenCV', 'TensorFlow'],
-    github: 'https://github.com/Brajesh31/face-recognition',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -201,7 +201,7 @@ const projectsData: Project[] = [
     description: 'Agile board tool for managing software sprints and backlogs.',
     image: imgAgilePlanner,
     tags: ['Jira API', 'React.js', 'Agile'],
-    github: 'https://github.com/Brajesh31/agile-planner',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -210,7 +210,7 @@ const projectsData: Project[] = [
     description: 'IoT solution for monitoring farming conditions in real time.',
     image: imgAgrotech,
     tags: ['React.js', 'Node.js', 'MongoDB', 'IoT'],
-    github: 'https://github.com/Brajesh31/agrotech',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   },
   {
@@ -219,7 +219,7 @@ const projectsData: Project[] = [
     description: 'Connect influencers with sponsors for marketing campaigns.',
     image: imgInfluencer,
     tags: ['Next.js', 'React.js', 'PostgreSQL'],
-    github: 'https://github.com/Brajesh31/influencer-platform',
+    github: 'https://github.com/Brajesh31',
     featured: false,
   }
 ];
