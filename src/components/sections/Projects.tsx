@@ -62,7 +62,7 @@ const projectsData: Project[] = [
     id: '4',
     title: 'FireDeck',
     description: 'A collaborative flashcard application for studying with spaced repetition algorithms.',
-    image: imgFiredeck,
+    image: imgFireDeck,
     tags: ['React', 'Firebase', 'Tailwind CSS'],
     github: 'https://github.com/Brajesh31/firedeck',
     demo: 'https://example.com',
