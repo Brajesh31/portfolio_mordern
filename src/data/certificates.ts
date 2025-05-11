@@ -1,9 +1,9 @@
 // Import images (adjust path/filenames as needed)
-import canvaImg from '../../assets/canva.jpg';
-import canvaWebImg from '../../assets/canva-webpages.jpg';
-import uxPortfolioImg from '../../assets/ux-portfolio.jpg';
-import pitchDeckImg from '../../assets/pitch-deck.jpg';
-import websiteVideosImg from '../../assets/website-videos.jpg';
+import canvaImg from '/src/assets/canva.jpg';
+import canvaWebImg from '/src/assets/canva-webpages.jpg';
+import uxPortfolioImg from '/src/assets/ux-portfolio.jpg';
+import pitchDeckImg from '/src/assets/pitch-deck.jpg';
+import websiteVideosImg from '/src/assets/website-videos.jpg';
 
 export const certificates = [
   {
