@@ -43,7 +43,7 @@ const projectsData: Project[] = [
     id: '2',
     title: 'MazeCrafter',
     description: 'An interactive tool for creating and solving mazes with customizable algorithms.',
-    image: imgMazecrafter,
+    image: imgMazeCrafter,
     tags: ['JavaScript', 'Canvas API', 'Algorithms'],
     github: 'https://github.com/Brajesh31/mazecrafter',
     featured: true,
