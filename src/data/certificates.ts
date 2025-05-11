@@ -1,70 +1,67 @@
+// Import images (adjust path/filenames as needed)
+import canvaImg from '../../assets/certificates/canva.jpg';
+import canvaWebImg from '../../assets/certificates/canva-webpages.jpg';
+import uxPortfolioImg from '../../assets/certificates/ux-portfolio.jpg';
+import pitchDeckImg from '../../assets/certificates/pitch-deck.jpg';
+import websiteVideosImg from '../../assets/certificates/website-videos.jpg';
+
 export const certificates = [
   {
     id: "1",
-    title: "AWS Multi-Tier VPC Architecture",
+    title: "Build Customizable Sales Presentation Graphics Using Canva",
     issuer: "Coursera",
     date: "March 2025",
-    credentialId: "IYY4SR2OD06R",
-    image: "https://images.pexels.com/photos/5935794/pexels-photo-5935794.jpeg",
+    credentialId: "U16VPKBLWHKJ",
+    image: canvaImg,
     featured: true
   },
   {
     id: "2",
-    title: "AWS APAC - Solutions Architecture",
-    issuer: "Forage",
+    title: "Use Canva to Create Desktop and Mobile-friendly Web Pages",
+    issuer: "Coursera",
     date: "March 2025",
-    credentialId: "KuL5Gy2Xm45XuFXhZ",
-    image: "https://images.pexels.com/photos/953862/pexels-photo-953862.jpeg",
+    credentialId: "8ULAP5KM83Y0",
+    image: canvaWebImg,
     featured: true
   },
   {
     id: "3",
-    title: "Pandas Bootcamp | Data Analysis",
-    issuer: "Udemy",
+    title: "Create Your UX Portfolio with Crevado",
+    issuer: "Coursera",
     date: "March 2025",
-    credentialId: "UC-f9187042-b451-4a32-b357-83d402ace15a",
-    image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+    credentialId: "H32NN875QYLJ",
+    image: uxPortfolioImg,
     featured: true
   },
   {
     id: "4",
-    title: "Advanced Programme Planning",
-    issuer: "United Latino Students Association",
+    title: "Design a Pitch Deck with Canva",
+    issuer: "Coursera",
     date: "March 2025",
-    credentialId: "2T3JW5EUKRED",
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg",
+    credentialId: "G1K53UY9ZGKW",
+    image: pitchDeckImg,
     featured: true
   },
   {
     id: "5",
-    title: "Agile Project: Product Prototype",
-    issuer: "United Latino Students Association",
+    title: "Create Website Videos with Canva",
+    issuer: "EDX Alumni",
     date: "March 2025",
-    credentialId: "K50WF4O2GXLZ",
-    image: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg",
+    credentialId: "QS8RY49ISMIR",
+    image: websiteVideosImg,
     featured: true
   }
 ];
 
 export const certificateCategories = [
   {
-    name: "Cloud & DevOps",
+    name: "UI/UX & Software Development",
     certificates: [
-      "AWS Multi-Tier VPC Architecture",
-      "AWS APAC - Solutions Architecture"
-    ]
-  },
-  {
-    name: "Data Science & Analytics",
-    certificates: [
-      "Pandas Bootcamp | Data Analysis"
-    ]
-  },
-  {
-    name: "Project Management",
-    certificates: [
-      "Advanced Programme Planning",
-      "Agile Project: Product Prototype"
+      "Build Customizable Sales Presentation Graphics Using Canva",
+      "Use Canva to Create Desktop and Mobile-friendly Web Pages",
+      "Create Your UX Portfolio with Crevado",
+      "Design a Pitch Deck with Canva",
+      "Create Website Videos with Canva"
     ]
   }
 ];
