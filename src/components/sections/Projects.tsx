@@ -33,7 +33,7 @@ const projectsData: Project[] = [
     id: '1',
     title: 'SEM&C',
     description: 'A full-stack application for managing search engine marketing campaigns across multiple platforms.',
-    image: imgSemc,
+    image: imgSEMC,
     tags: ['React', 'Node.js', 'MongoDB', 'Express'],
     github: 'https://github.com/Brajesh31/semc',
     demo: 'https://example.com',
