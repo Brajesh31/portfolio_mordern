@@ -5,7 +5,7 @@ import knights from '/src/assets/knights.jpg';
 import mathematrix from '/src/assets/mathematrix.jpg';
 import semac from '/src/assets/semc.jpg';
 import ideapool from '/src/assets/ideapool.jpg';
-import fitdeck from '/src/assets/fitdeck.jpg';
+import fitdeck from '/src/assets/fideck.jpg';
 import chatterbox from '/src/assets/chatterbox.jpg';
 import capnshare from '/src/assets/capnshare.jpg';
 import careerMapper from '/src/assets/career-mapper.jpg';
