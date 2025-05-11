@@ -81,7 +81,7 @@ const projectsData: Project[] = [
     id: '6',
     title: 'SkillSwap',
     description: 'Platform connecting people to exchange skills and knowledge in local communities.',
-    image: imgSkillswap,
+    image: imgSkillSwap,
     tags: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
     github: 'https://github.com/Brajesh31/skillswap',
     demo: 'https://example.com',
