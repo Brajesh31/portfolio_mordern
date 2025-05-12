@@ -125,6 +125,15 @@ const SkillCategorySection: React.FC<{ category: SkillCategory; delay: number }>
 };
 
 const Skills = () => {
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'brajesh_kumar_resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="container-section">
       <SectionHeading 
@@ -143,14 +152,14 @@ const Skills = () => {
         viewport={{ once: true }}
         className="flex justify-center mt-8"
       >
-        <motion.a
-          href="#"
+        <motion.button
+          onClick={handleDownloadResume}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="btn btn-primary flex items-center gap-2"
         >
           <Download size={16} /> Download Resume
-        </motion.a>
+        </motion.button>
       </motion.div>
     </div>
   );
