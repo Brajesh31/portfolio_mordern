@@ -2,17 +2,25 @@ import express from 'express';
 import { Contact } from '../models/Contact.js';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
 const router = express.Router();
 
+// Enable CORS for the contact route
+router.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['POST', 'OPTIONS'],
+  credentials: true
+}));
+
 // Email transporter configuration
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'bk117134@gmail.com',
-    pass: 'bk@31012004'
+    user: process.env.EMAIL_USER || 'bk117134@gmail.com',
+    pass: process.env.EMAIL_PASSWORD || 'bk@31012004'
   }
 });
 
@@ -37,8 +45,8 @@ router.post('/', async (req, res) => {
     
     // Send email notification
     const mailOptions = {
-      from: 'bk117134@gmail.com',
-      to: 'bk117134@gmail.com',
+      from: process.env.EMAIL_USER || 'bk117134@gmail.com',
+      to: process.env.EMAIL_USER || 'bk117134@gmail.com',
       subject: `New Contact Form Submission: ${subject}`,
       html: `
         <h3>New Contact Form Submission</h3>
