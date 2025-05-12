@@ -10,7 +10,7 @@ const router = express.Router();
 
 // Enable CORS for the contact route
 router.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   methods: ['POST', 'OPTIONS'],
   credentials: true
 }));
