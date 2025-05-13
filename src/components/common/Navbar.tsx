@@ -38,18 +38,19 @@ const Navbar = () => {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-xl font-bold text-white flex items-center gap-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-xl font-bold text-white flex items-center gap-2"
         >
           <Link to="/" className="flex items-center gap-2">
-            <img src="/src/assets/logo.jpg" alt="Logo" className="h-8 w-8" />
+            <img src="/personal.jpg" alt="Logo" className="h-8 w-8" />
             <span>
-              Brajesh<span className="text-primary-500">.</span>
-            </span>
+      Brajesh<span className="text-primary-500">.</span>
+    </span>
           </Link>
         </motion.div>
+
 
         {/* Desktop Navigation */}
         <motion.ul
