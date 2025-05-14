@@ -125,7 +125,7 @@ export const projects = [
       'A food-sharing app for college campuses aiming to reduce food waste by letting students donate surplus food to others in need.',
     image: capnshare,
     tags: ['Ruby on Rails', 'PostgreSQL', 'AWS S3'],
-    github: 'https://github.com/Brajesh31/capnshare',
+    github: 'https://github.com/Brajesh31/cap-and-share',
     featured: false,
   },
   {
@@ -155,7 +155,7 @@ export const projects = [
       'A facial recognition system that identifies and verifies faces in real-time using computer vision and deep learning.',
     image: faceRecognition,
     tags: ['Python', 'OpenCV', 'TensorFlow'],
-    github: 'https://github.com/Brajesh31/face-recognition',
+    github: 'https://github.com/Brajesh31/Face-Recognition',
     featured: false,
   },
   {
