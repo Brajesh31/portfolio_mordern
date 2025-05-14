@@ -12,7 +12,6 @@ import ProjectsPage from './pages/ProjectsPage';
 import CertificatesPage from './pages/CertificatesPage';
 import SkillsPage from './pages/SkillsPage';
 import ContactPage from './pages/ContactPage';
-import ChatBot from './components/chatbot/ChatBot';
 
 function App() {
   return (
@@ -37,7 +36,6 @@ function App() {
         
         <Footer />
         <ScrollToTop />
-        <ChatBot />
       </div>
     </Router>
   );
