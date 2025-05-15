@@ -12,6 +12,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import CertificatesPage from './pages/CertificatesPage';
 import SkillsPage from './pages/SkillsPage';
 import ContactPage from './pages/ContactPage';
+import ServicesPage from './pages/ServicesPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/certificates" element={<CertificatesPage />} />
             <Route path="/skills" element={<SkillsPage />} />
+            <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
@@ -41,4 +43,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
