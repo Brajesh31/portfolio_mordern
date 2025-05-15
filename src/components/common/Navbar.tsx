@@ -9,6 +9,7 @@ const navLinks = [
   { name: 'Education', path: '/education' },
   { name: 'Experience', path: '/experience' },
   { name: 'Projects', path: '/projects' },
+  { name: 'Services', path: '/services' },
   { name: 'Certificates', path: '/certificates' },
   { name: 'Skills & Tools', path: '/skills' },
   { name: 'Contact', path: '/contact' },
@@ -46,11 +47,10 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-2">
             <img src="/personal.jpg" alt="Logo" className="h-8 w-8" />
             <span>
-      Brajesh<span className="text-primary-500">.</span>
-    </span>
+              Brajesh<span className="text-primary-500">.</span>
+            </span>
           </Link>
         </motion.div>
-
 
         {/* Desktop Navigation */}
         <motion.ul
