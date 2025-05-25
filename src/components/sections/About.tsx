@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionHeading from '../common/SectionHeading';
@@ -29,7 +30,7 @@ const About = () => {
     '.NET',
     'MongoDB',
     'MySQL',
-    'PostgreSQL',
+    'PostgresSQL',
   ];
 
   const fadeInUp = {
