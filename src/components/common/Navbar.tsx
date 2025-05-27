@@ -5,9 +5,19 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../ThemeProvider';
 import ThemeAwareImage from '../ThemeAwareImage';
 
-// ... rest of the imports
-
 const Navbar = () => {
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Me', path: '/about' },
+    { name: 'Education', path: '/education' },
+    { name: 'Experience', path: '/experience' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Services', path: '/services' },
+    { name: 'Certificates', path: '/certificates' },
+    { name: 'Skills & Tools', path: '/skills' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
