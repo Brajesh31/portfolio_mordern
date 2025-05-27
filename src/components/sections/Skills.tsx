@@ -96,10 +96,10 @@ const SkillIcon: React.FC<{ skill: { name: string; icon: string } }> = ({ skill 
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
       whileHover={{ y: -5, scale: 1.05 }}
-      className="flex flex-col items-center p-4 bg-dark-200 rounded-lg border border-gray-800 hover:border-primary-500 transition-all"
+      className="flex flex-col items-center p-4 bg-light-card dark:bg-dark-card rounded-lg border border-gray-200 dark:border-gray-800 hover:border-primary-500 transition-all duration-300"
     >
       <span className="text-3xl mb-2">{skill.icon}</span>
-      <span className="text-sm font-medium">{skill.name}</span>
+      <span className="text-sm font-medium text-gray-900 dark:text-white">{skill.name}</span>
     </motion.div>
   );
 };
@@ -156,7 +156,7 @@ const Skills = () => {
           onClick={handleDownloadResume}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="btn btn-primary flex items-center gap-2"
+          className="btn btn-primary flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white"
         >
           <Download size={16} /> Download Resume
         </motion.button>
