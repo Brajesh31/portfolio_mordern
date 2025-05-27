@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -51,22 +52,17 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
-      animation: {
-        'slide-up': 'slideUp 0.5s ease-out',
-        'fade-in': 'fadeIn 0.5s ease-out',
+      perspective: {
+        1000: '1000px',
       },
-      keyframes: {
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: 0 },
-          '100%': { transform: 'translateY(0)', opacity: 1 },
-        },
-        fadeIn: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 1 },
-        },
+      transformStyle: {
+        '3d': 'preserve-3d',
       },
-      backgroundImage: {
-        'radial-gradient': 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(13, 13, 13, 0) 70%)',
+      backfaceVisibility: {
+        hidden: 'hidden',
+      },
+      rotate: {
+        'y-180': 'rotateY(180deg)',
       },
     },
   },

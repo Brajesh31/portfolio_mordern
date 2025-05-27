@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import ThemeToggle from '../layout/ThemeToggle';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -33,16 +34,16 @@ const Navbar = () => {
     <header
       className={`fixed w-full top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-dark-300/95 backdrop-blur-sm shadow-md py-3'
+          ? 'bg-white/95 dark:bg-dark-300/95 backdrop-blur-sm shadow-md py-3'
           : 'bg-transparent py-5'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-xl font-bold text-white flex items-center gap-2"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
         >
           <Link to="/" className="flex items-center gap-2">
             <img src="/personal.jpg" alt="Logo" className="h-8 w-8" />
@@ -57,7 +58,7 @@ const Navbar = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="hidden md:flex space-x-1 lg:space-x-2"
+          className="hidden md:flex space-x-1 lg:space-x-2 items-center"
         >
           {navLinks.map((link) => (
             <li key={link.name}>
@@ -71,13 +72,17 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <ThemeToggle />
+          </li>
         </motion.ul>
 
         {/* Mobile menu button */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-4">
+          <ThemeToggle />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white p-2"
+            className="text-gray-900 dark:text-white p-2"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -91,14 +96,14 @@ const Navbar = () => {
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3 }}
-          className="md:hidden bg-dark-200 border-t border-gray-800"
+          className="md:hidden bg-white dark:bg-dark-200 border-t border-gray-200 dark:border-gray-800"
         >
           <ul className="flex flex-col py-2">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <Link
                   to={link.path}
-                  className={`block px-4 py-3 hover:bg-dark-100 ${
+                  className={`block px-4 py-3 hover:bg-gray-100 dark:hover:bg-dark-100 ${
                     location.pathname === link.path ? 'text-primary-500' : ''
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
