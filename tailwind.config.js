@@ -14,14 +14,13 @@ export default {
           }
         },
         dark: {
-          50: '#1a1b27',
+          bg: '#10111A',
+          card: 'rgba(17, 17, 27, 0.8)',
           100: '#16171f',
           200: '#1e1f2d',
           300: '#10111A',
           400: '#0d0e15',
           500: '#0a0b10',
-          bg: '#10111A',
-          card: 'rgba(17, 17, 27, 0.8)',
           accent: {
             primary: '#43C6AC',
             secondary: '#F8FFAE'
