@@ -121,7 +121,9 @@ const Contact = () => {
 
   return (
     <div className="container-section">
-      <SectionHeading title="Contact" subtitle="Let's get in touch" />
+      <div className="text-right mb-12">
+        <h2 className="text-3xl font-bold text-primary-500">Contact</h2>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Contact Form */}
