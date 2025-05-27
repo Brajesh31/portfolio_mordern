@@ -4,6 +4,7 @@ import { Mail, MapPin, Linkedin, Github, Send } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import SectionHeading from '../common/SectionHeading';
 import { ContactFormData } from '../../types';
+import { useTheme } from '../ThemeProvider';
 
 const contactInfo = [
   {
@@ -13,18 +14,18 @@ const contactInfo = [
     link: 'mailto:bk117134@gmail.com',
   },
   {
-    icon: <MapPin className="text-primary-400\" size={24} />,
+    icon: <MapPin className="text-primary-400" size={24} />,
     title: 'Location',
     content: 'Noida, India',
   },
   {
     icon: <Linkedin className="text-primary-400" size={24} />,
     title: 'LinkedIn',
-    content: 'https://www.linkedin.com/in/brajesh-kumar-9b58651a8/',
+    content: 'linkedin.com/in/brajesh-kumar-9b58651a8',
     link: 'https://www.linkedin.com/in/brajesh-kumar-9b58651a8/',
   },
   {
-    icon: <Github className="text-primary-400\" size={24} />,
+    icon: <Github className="text-primary-400" size={24} />,
     title: 'GitHub',
     content: 'github.com/Brajesh31',
     link: 'https://github.com/Brajesh31',
@@ -32,29 +33,33 @@ const contactInfo = [
 ];
 
 const ContactCard: React.FC<{ info: (typeof contactInfo)[0] }> = ({ info }) => {
+  const { theme } = useTheme();
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="card p-6 hover:shadow-lg"
+      className="bg-light-card dark:bg-dark-card p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300"
     >
       <div className="flex items-start gap-4">
-        <div className="icon-box bg-primary-900/30">{info.icon}</div>
+        <div className="icon-box bg-light-bg dark:bg-dark-bg">{info.icon}</div>
         <div>
-          <h3 className="font-semibold mb-1">{info.title}</h3>
+          <h3 className="font-semibold mb-1 text-gray-900 dark:text-white">
+            {info.title}
+          </h3>
           {info.link ? (
             <a
               href={info.link}
-              className="text-gray-400 hover:text-primary-400 transition-colors"
+              className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
               {info.content}
             </a>
           ) : (
-            <p className="text-gray-400">{info.content}</p>
+            <p className="text-gray-600 dark:text-gray-400">{info.content}</p>
           )}
         </div>
       </div>
@@ -73,6 +78,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const { theme } = useTheme();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -125,27 +131,29 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <div className="bg-dark-200 rounded-xl p-6 md:p-8 border border-gray-800 shadow-lg">
-            <h3 className="text-xl font-semibold mb-6">Get in Touch</h3>
+          <div className="bg-light-card dark:bg-dark-card rounded-xl p-6 md:p-8 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300">
+            <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">
+              Get in Touch
+            </h3>
 
             {submitSuccess ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-green-900/30 border border-green-700 text-green-400 p-4 rounded-lg mb-6"
+                className="bg-green-100 dark:bg-green-900/30 border border-green-500 dark:border-green-700 text-green-700 dark:text-green-400 p-4 rounded-lg mb-6"
               >
                 Your message has been sent successfully! I'll get back to you soon.
               </motion.div>
             ) : (
               <form ref={form} onSubmit={handleSubmit} className="space-y-6">
                 {submitError && (
-                  <div className="bg-red-900/30 border border-red-700 text-red-400 p-4 rounded-lg">
+                  <div className="bg-red-100 dark:bg-red-900/30 border border-red-500 dark:border-red-700 text-red-700 dark:text-red-400 p-4 rounded-lg">
                     {submitError}
                   </div>
                 )}
 
                 <div>
-                  <label htmlFor="name" className="block text-gray-400 mb-2">
+                  <label htmlFor="name" className="block text-gray-600 dark:text-gray-400 mb-2">
                     Name
                   </label>
                   <input
@@ -160,7 +168,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-gray-400 mb-2">
+                  <label htmlFor="email" className="block text-gray-600 dark:text-gray-400 mb-2">
                     Email
                   </label>
                   <input
@@ -175,7 +183,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-gray-400 mb-2">
+                  <label htmlFor="subject" className="block text-gray-600 dark:text-gray-400 mb-2">
                     Subject
                   </label>
                   <input
@@ -190,7 +198,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-gray-400 mb-2">
+                  <label htmlFor="message" className="block text-gray-600 dark:text-gray-400 mb-2">
                     Message
                   </label>
                   <textarea
@@ -229,7 +237,9 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
+          <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">
+            Contact Information
+          </h3>
 
           <div className="grid grid-cols-1 gap-4">
             {contactInfo.map((info, index) => (
@@ -238,7 +248,7 @@ const Contact = () => {
           </div>
 
           <div className="mt-8">
-            <p className="text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400">
               Feel free to reach out for collaboration, job opportunities, or just
               to say hi! I'll get back to you as soon as possible.
             </p>

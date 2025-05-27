@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Send, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SectionHeading from '../common/SectionHeading';
+import { useTheme } from '../ThemeProvider';
 
 interface SubService {
   title: string;
@@ -143,6 +144,7 @@ const services: ServiceCategory[] = [
 const Services = () => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [showBanner, setShowBanner] = useState(false);
+  const { theme } = useTheme();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -162,12 +164,11 @@ const Services = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });
-      // You can also update the contact form's subject with the selected service
     }
   };
 
   return (
-    <div className="min-h-screen bg-dark-300 py-20 relative">
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg py-20 relative transition-colors duration-300">
       <div className="container mx-auto px-4">
         <SectionHeading 
           title="Services I Offer" 
@@ -182,10 +183,10 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className={`bg-dark-200 rounded-xl overflow-hidden border ${
+              className={`bg-light-card dark:bg-dark-card rounded-xl overflow-hidden border transition-colors duration-300 ${
                 expandedCategory === category.id
                   ? 'border-primary-500 shadow-lg shadow-primary-500/20'
-                  : 'border-gray-800'
+                  : 'border-gray-200 dark:border-gray-800'
               }`}
             >
               <button
@@ -193,7 +194,9 @@ const Services = () => {
                 className="w-full text-left p-6 focus:outline-none"
               >
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold">{category.title}</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    {category.title}
+                  </h3>
                   <motion.div
                     animate={{ rotate: expandedCategory === category.id ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
@@ -201,7 +204,9 @@ const Services = () => {
                     <ChevronDown className="w-5 h-5 text-primary-400" />
                   </motion.div>
                 </div>
-                <p className="text-gray-400 mt-2">{category.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mt-2">
+                  {category.description}
+                </p>
               </button>
 
               <AnimatePresence>
@@ -219,17 +224,17 @@ const Services = () => {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="bg-dark-300 rounded-lg p-4"
+                          className="bg-light-bg dark:bg-dark-bg rounded-lg p-4 transition-colors duration-300"
                         >
-                          <h4 className="font-medium text-primary-400 mb-2">
+                          <h4 className="font-medium text-primary-600 dark:text-primary-400 mb-2">
                             {service.title}
                           </h4>
-                          <p className="text-sm text-gray-400 mb-3">
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                             {service.description}
                           </p>
                           <button
                             onClick={() => scrollToContact(service.title)}
-                            className="text-sm flex items-center gap-2 text-primary-500 hover:text-primary-400 transition-colors"
+                            className="text-sm flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
                           >
                             <Send size={14} /> Contact for this service
                           </button>
