@@ -32,7 +32,10 @@ body {
   }
 
   .nav-link {
-    @apply px-4 py-2 text-sm md:text-base relative transition-colors hover:text-primary-400 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-primary-500 after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:transition-all hover:after:w-3/4;
+    @apply px-4 py-2 text-sm md:text-base relative hover:text-primary-400 transition-colors
+    after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-primary-500
+    after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:transition-all
+    hover:after:w-3/4;
   }
 
   .nav-link.active {
@@ -44,11 +47,13 @@ body {
   }
 
   .skill-tag {
-    @apply bg-white dark:bg-dark-200 text-gray-900 dark:text-white px-4 py-2 rounded-full border border-primary-600 shadow-md hover:border-primary-400 transition-all text-sm;
+    @apply bg-white dark:bg-dark-200 text-gray-900 dark:text-white px-4 py-2 rounded-full border border-primary-600 
+    shadow-md hover:border-primary-400 transition-all text-sm;
   }
 
   .card {
-    @apply bg-white dark:bg-dark-200 rounded-xl shadow-md p-6 overflow-hidden transition-all duration-300 relative border border-gray-200 dark:border-gray-800 hover:border-primary-500;
+    @apply bg-white dark:bg-dark-200 rounded-xl shadow-md p-6 overflow-hidden transition-all 
+    duration-300 relative border border-gray-200 dark:border-gray-800 hover:border-primary-500;
   }
 
   .btn {
@@ -64,7 +69,8 @@ body {
   }
 
   .form-input {
-    @apply bg-white dark:bg-dark-200 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-3 w-full text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply bg-white dark:bg-dark-200 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-3 w-full 
+    text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
   }
   
   .icon-box {
