@@ -1,33 +1,37 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(var(--color-primary) / <alpha-value>)',
-        'primary-light': 'rgb(var(--color-primary-light) / <alpha-value>)',
-        background: 'rgb(var(--color-background) / <alpha-value>)',
-        text: 'rgb(var(--color-text) / <alpha-value>)',
-        gray: 'rgb(var(--color-gray) / <alpha-value>)',
+        primary: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+          950: '#082f49',
+        },
+        dark: {
+          100: '#1a1b1e',
+          200: '#141517',
+          300: '#101113',
+          400: '#0c0d0e',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
-      animation: {
-        'float': 'float 6s ease-in-out infinite',
-      },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-      },
-      clipPath: {
-        polygon: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-        hexagon: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-      },
     },
   },
   plugins: [],
-};
+}
