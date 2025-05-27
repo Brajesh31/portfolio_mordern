@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { personalInfo } from '../data/personal';
+import { projects } from '../data/projects';
+import { certificates } from '../data/certificates';
 import Education from '../components/sections/Education';
 import Experience from '../components/sections/Experience';
+import Contact from '../components/sections/Contact';
 import ThemeAwareImage from '../components/ThemeAwareImage';
 import { useTheme } from '../components/ThemeProvider';
 
@@ -63,20 +66,95 @@ const SkillBall: React.FC<{ skill: typeof featuredSkills[0]; index: number }> = 
   );
 };
 
-const FeaturedSkills = () => {
-  return (
-    <div className="py-20">
-      <h2 className="text-3xl font-bold text-center mb-12">Featured Skills</h2>
-      <div className="flex flex-wrap justify-center gap-12">
-        {featuredSkills.map((skill, index) => (
-          <SkillBall key={skill.name} skill={skill} index={index} />
-        ))}
-      </div>
+const FeaturedSection: React.FC<{
+  title: string;
+  viewAllLink: string;
+  children: React.ReactNode;
+}> = ({ title, viewAllLink, children }) => (
+  <div className="py-20">
+    <div className="flex justify-between items-center mb-12">
+      <h2 className="text-3xl font-bold">{title}</h2>
+      <Link
+        to={viewAllLink}
+        className="flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
+      >
+        View All <ExternalLink size={16} />
+      </Link>
     </div>
+    {children}
+  </div>
+);
+
+const CertificateCard: React.FC<{ certificate: typeof certificates[0] }> = ({ certificate }) => {
+  const { theme } = useTheme();
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className={`bg-light-card dark:bg-dark-card rounded-xl overflow-hidden transition-all duration-300 group`}
+    >
+      <div
+        className="h-48 bg-cover bg-center"
+        style={{ backgroundImage: `url(${certificate.image})` }}
+      />
+      <div className="p-6">
+        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+          {certificate.title}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
+          {certificate.issuer}
+        </p>
+        <p className="text-gray-500 dark:text-gray-500 text-xs mb-4">
+          {certificate.date}
+        </p>
+        <button className="btn btn-primary w-full">View Certificate</button>
+      </div>
+    </motion.div>
+  );
+};
+
+const ProjectCard: React.FC<{ project: typeof projects[0] }> = ({ project }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="bg-light-card dark:bg-dark-card rounded-xl overflow-hidden group transition-all duration-300"
+    >
+      <div
+        className="h-48 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+        style={{ backgroundImage: `url(${project.image})` }}
+      />
+      <div className="p-6">
+        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-400 transition-colors">
+          {project.title}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="skill-tag text-xs">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <Link to={`/projects`} className="btn btn-primary w-full">
+          View Project
+        </Link>
+      </div>
+    </motion.div>
   );
 };
 
 function HomePage() {
+  const featuredProjects = projects.filter(project => project.featured).slice(0, 3);
+  const featuredCertificates = certificates.filter(cert => cert.featured).slice(0, 3);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -148,13 +226,40 @@ function HomePage() {
       </div>
 
       {/* Featured Skills Section */}
-      <FeaturedSkills />
+      <FeaturedSection title="Featured Skills" viewAllLink="/skills">
+        <div className="flex flex-wrap justify-center gap-12">
+          {featuredSkills.map((skill, index) => (
+            <SkillBall key={skill.name} skill={skill} index={index} />
+          ))}
+        </div>
+      </FeaturedSection>
+
+      {/* Featured Projects Section */}
+      <FeaturedSection title="Featured Projects" viewAllLink="/projects">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      </FeaturedSection>
+
+      {/* Featured Certificates Section */}
+      <FeaturedSection title="Featured Certificates" viewAllLink="/certificates">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredCertificates.map((certificate) => (
+            <CertificateCard key={certificate.id} certificate={certificate} />
+          ))}
+        </div>
+      </FeaturedSection>
 
       {/* Education Section */}
       <Education />
 
       {/* Experience Section */}
       <Experience />
+
+      {/* Contact Section */}
+      <Contact />
     </div>
   );
 }
