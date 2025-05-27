@@ -32,7 +32,7 @@ body {
   }
 
   .nav-link {
-    @apply px-4 py-2 text-sm md:text-base relative hover:text-primary-400 transition-colors
+    @apply px-4 py-2 text-sm md:text-base relative text-primary-400 transition-colors
     after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-primary-500
     after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:transition-all
     hover:after:w-3/4;
