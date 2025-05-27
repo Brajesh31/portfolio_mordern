@@ -3,33 +3,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import SectionHeading from '../common/SectionHeading';
 
-const FlippingProfilePicture = () => {
-  return (
-    <div className="perspective-1000 w-64 h-64 mx-auto mb-8">
-      <motion.div
-        className="relative w-full h-full transition-transform duration-500 transform-style-3d cursor-pointer"
-        whileHover={{ rotateY: 180 }}
-      >
-        {/* Front side */}
-        <div className="absolute w-full h-full backface-hidden">
-          <img
-            src="/personal.jpg"
-            alt="Brajesh Kumar"
-            className="w-full h-full object-cover rounded-xl"
-          />
-        </div>
-        
-        {/* Back side */}
-        <div 
-          className="absolute w-full h-full backface-hidden bg-primary-600 rounded-xl flex items-center justify-center transform rotate-y-180"
-        >
-          <span className="text-6xl font-bold text-white">bk</span>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
 const About = () => {
   const frontendSkills = [
     'HTML5',
@@ -77,7 +50,6 @@ const About = () => {
         viewport={{ once: true }}
         className="bg-dark-200 rounded-xl p-6 md:p-8 lg:p-10 border border-gray-800 shadow-lg"
       >
-        <FlippingProfilePicture />
         <motion.p
           {...fadeInUp}
           className="text-lg md:text-xl leading-relaxed text-gray-300 space-y-4"
@@ -93,7 +65,7 @@ const About = () => {
           through my wide array of projects ranging from intelligent personal
           assistants like <em>Emma</em>, AI-powered therapy bots like{' '}
           <em>Thea</em>, to full-fledged web platforms like <em>SEMAC</em> and{' '}
-          <em>IdeaPool</em>. I've also contributed to game development and
+          <em>IdeaPool</em>. I’ve also contributed to game development and
           ed-tech innovations, combining creativity with code.
           <br />
           <br />
@@ -102,14 +74,14 @@ const About = () => {
           AWS. I'm constantly learning, experimenting, and pushing boundaries.
           <br />
           <br />
-          I've interned with over 10 companies, gaining real-world exposure in
+          I’ve interned with over 10 companies, gaining real-world exposure in
           Python development, web design, and AI systems. I hold over 100+
           certifications from platforms like IBM, Coursera, Forage, Google
           Cloud, Cisco, and more, and I actively participate in hackathons,
           CTFs, and coding contests (3★ CodeChef, 5★ HackerRank in Python).
           <br />
           <br />
-          Beyond code, I'm a team player, quick learner, and a creative thinker
+          Beyond code, I’m a team player, quick learner, and a creative thinker
           — always excited to collaborate and bring new ideas to life.
         </motion.p>
       </motion.div>

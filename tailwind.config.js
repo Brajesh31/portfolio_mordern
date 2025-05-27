@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -41,18 +40,6 @@ export default {
           800: '#9a3412',
           900: '#7c2d12',
         },
-        gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
-        },
         dark: {
           100: '#1a1a1a',
           200: '#121212',
@@ -64,17 +51,22 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
-      perspective: {
-        1000: '1000px',
+      animation: {
+        'slide-up': 'slideUp 0.5s ease-out',
+        'fade-in': 'fadeIn 0.5s ease-out',
       },
-      transformStyle: {
-        '3d': 'preserve-3d',
+      keyframes: {
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: 0 },
+          '100%': { transform: 'translateY(0)', opacity: 1 },
+        },
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
       },
-      backfaceVisibility: {
-        hidden: 'hidden',
-      },
-      rotate: {
-        'y-180': 'rotateY(180deg)',
+      backgroundImage: {
+        'radial-gradient': 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(13, 13, 13, 0) 70%)',
       },
     },
   },
