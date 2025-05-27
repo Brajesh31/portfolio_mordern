@@ -252,18 +252,14 @@ function HomePage() {
         </div>
       </FeaturedSection>
 
-      {/* Right-aligned sections */}
-      <div className="flex flex-col items-end">
-        <div className="w-full lg:w-2/3">
-          <Education />
-        </div>
-        <div className="w-full lg:w-2/3">
-          <Experience />
-        </div>
-        <div className="w-full lg:w-2/3">
-          <Contact />
-        </div>
-      </div>
+      {/* Education Section */}
+      <Education />
+
+      {/* Experience Section */}
+      <Experience />
+
+      {/* Contact Section */}
+      <Contact />
     </div>
   );
 }
