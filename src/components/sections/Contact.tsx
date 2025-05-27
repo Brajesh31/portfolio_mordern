@@ -14,7 +14,7 @@ const contactInfo = [
     link: 'mailto:bk117134@gmail.com',
   },
   {
-    icon: <MapPin className="text-primary-400" size={24} />,
+    icon: <MapPin className="text-primary-400\" size={24} />,
     title: 'Location',
     content: 'Noida, India',
   },
@@ -25,7 +25,7 @@ const contactInfo = [
     link: 'https://www.linkedin.com/in/brajesh-kumar-9b58651a8/',
   },
   {
-    icon: <Github className="text-primary-400" size={24} />,
+    icon: <Github className="text-primary-400\" size={24} />,
     title: 'GitHub',
     content: 'github.com/Brajesh31',
     link: 'https://github.com/Brajesh31',
