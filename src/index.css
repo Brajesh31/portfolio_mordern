@@ -97,7 +97,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-200 dark:bg-dark-400;
+  @apply bg-gray-200 dark:bg-dark-300;
 }
 
 ::-webkit-scrollbar-thumb {
