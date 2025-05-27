@@ -1,14 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ChevronRight, ImageIcon, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { personalInfo } from '../data/personal';
 import { projects } from '../data/projects';
 import { certificates } from '../data/certificates';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// @ts-expect-error
-import SectionHeading from '../components/common/SectionHeading';
+import ThemeAwareImage from '../components/ThemeAwareImage';
 
 const FeaturedSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="mt-20">
@@ -50,10 +47,14 @@ function HomePage() {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute inset-4 rounded-full border-2 border-dashed border-primary-400/40"
               />
-              <div className="absolute inset-8 rounded-full bg-gradient-to-br from-dark-100 to-dark-300 border border-primary-600/20 overflow-hidden shadow-xl">
-                <img src="/self.jpg" alt={personalInfo.fullName} className="w-full h-full object-cover" />
+              <div className="absolute inset-8 rounded-full bg-gradient-to-br from-light-bg dark:from-dark-bg to-light-card dark:to-dark-card border border-primary-600/20 overflow-hidden shadow-xl">
+                <ThemeAwareImage
+                  darkSrc="/self-dark.jpg"
+                  lightSrc="/self-light.jpg"
+                  alt={personalInfo.fullName}
+                  className="w-full h-full object-cover"
+                />
               </div>
-
             </div>
           </motion.div>
           

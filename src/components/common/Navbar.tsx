@@ -3,18 +3,9 @@ import { motion } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../ThemeProvider';
+import ThemeAwareImage from '../ThemeAwareImage';
 
-const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'About Me', path: '/about' },
-  { name: 'Education', path: '/education' },
-  { name: 'Experience', path: '/experience' },
-  { name: 'Projects', path: '/projects' },
-  { name: 'Services', path: '/services' },
-  { name: 'Certificates', path: '/certificates' },
-  { name: 'Skills & Tools', path: '/skills' },
-  { name: 'Contact', path: '/contact' },
-];
+// ... rest of the imports
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -47,7 +38,12 @@ const Navbar = () => {
           className="text-xl font-bold flex items-center gap-2"
         >
           <Link to="/" className="flex items-center gap-2">
-            <img src="/personal.jpg" alt="Logo" className="h-8 w-8 rounded-full" />
+            <ThemeAwareImage
+              darkSrc="/personal-dark.jpg"
+              lightSrc="/personal-light.jpg"
+              alt="Logo"
+              className="h-8 w-8 rounded-full"
+            />
             <span>
               Brajesh<span className="text-primary-500">.</span>
             </span>
