@@ -22,7 +22,7 @@ const FlippingProfilePicture = () => {
         <div 
           className="absolute w-full h-full backface-hidden bg-primary-600 rounded-xl flex items-center justify-center transform rotate-y-180"
         >
-          <span className="text-6xl font-bold text-white">bk</span>
+          <span className="text-6xl font-bold text-white">BK</span>
         </div>
       </motion.div>
     </div>
