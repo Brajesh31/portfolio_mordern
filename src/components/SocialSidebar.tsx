@@ -56,7 +56,7 @@ const SocialSidebar = () => {
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3"
+      className="fixed right-6 top-[40%] z-40 flex flex-col gap-3"
     >
       {socialLinks.map((link, index) => (
         <motion.a
@@ -67,21 +67,21 @@ const SocialSidebar = () => {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, delay: index * 0.1 }}
-          className={`p-3 rounded-full backdrop-blur-lg
+          className={`p-2.5 rounded-full backdrop-blur-lg
             ${theme === 'dark' ? 'bg-dark-card/30' : 'bg-light-card/30'}
             ${link.color} hover:text-white
             transform hover:scale-110 hover:shadow-lg
             transition-all duration-300 group`}
           aria-label={link.ariaLabel}
         >
-          <link.icon className="w-5 h-5" />
+          <link.icon className="w-4 h-4" />
           <span className="sr-only">{link.name}</span>
         </motion.a>
       ))}
       
       <motion.div
         initial={{ height: 0, opacity: 0 }}
-        animate={{ height: 100, opacity: 1 }}
+        animate={{ height: 80, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}
         className={`w-px mx-auto bg-gradient-to-b 
           ${theme === 'dark' 
