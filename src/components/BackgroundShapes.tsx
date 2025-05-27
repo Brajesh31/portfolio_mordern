@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 
 export const shapes = ['circle', 'rectangle', 'polygon'] as const;
@@ -13,6 +13,8 @@ type Shape = {
   color: string;
   rotation: number;
   points?: number[];
+  initialX: number;
+  initialY: number;
 };
 
 interface BackgroundShapesProps {
@@ -20,6 +22,8 @@ interface BackgroundShapesProps {
   colors?: string[];
   minSize?: number;
   maxSize?: number;
+  attractionRadius?: number;
+  attractionStrength?: number;
 }
 
 const generateRandomShape = (
@@ -43,61 +47,104 @@ const generateRandomShape = (
     color: colors[Math.floor(Math.random() * colors.length)],
     rotation: Math.random() * 360,
     points: type === 'polygon' ? Array.from({ length: 3 + Math.floor(Math.random() * 4) }, () => Math.random()) : undefined,
+    initialX: x,
+    initialY: y,
   };
 };
 
-const ShapeComponent: React.FC<{ shape: Shape }> = ({ shape }) => {
+const ShapeComponent: React.FC<{
+  shape: Shape;
+  mouseX: number;
+  mouseY: number;
+  attractionRadius: number;
+  attractionStrength: number;
+}> = ({ shape, mouseX, mouseY, attractionRadius, attractionStrength }) => {
   const { theme } = useTheme();
-  
-  const commonMotionProps = {
-    initial: { scale: 0, opacity: 0 },
-    animate: { scale: 1, opacity: 1 },
-    whileHover: {
-      scale: 1.2,
-      rotate: shape.rotation + Math.random() * 90 - 45,
-      y: -10,
-      filter: 'brightness(1.2)',
-      boxShadow: theme === 'dark' 
-        ? '0 0 20px rgba(255,255,255,0.2)' 
-        : '0 10px 20px rgba(0,0,0,0.1)',
-      transition: { duration: 0.3 },
-    },
-    style: {
-      position: 'absolute',
-      left: shape.x,
-      top: shape.y,
-      backgroundColor: shape.color,
-      width: shape.size,
-      height: shape.type === 'circle' ? shape.size : shape.type === 'rectangle' ? shape.size * 0.75 : shape.size,
-      rotate: `${shape.rotation}deg`,
-      pointerEvents: 'auto',
-    },
+  const controls = useAnimation();
+  const x = useMotionValue(shape.x);
+  const y = useMotionValue(shape.y);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      const dx = mouseX - shape.initialX;
+      const dy = mouseY - shape.initialY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < attractionRadius) {
+        const force = (1 - distance / attractionRadius) * attractionStrength;
+        const targetX = shape.initialX + dx * force;
+        const targetY = shape.initialY + dy * force;
+
+        controls.start({
+          x: targetX,
+          y: targetY,
+          transition: { type: "spring", stiffness: 50, damping: 10 }
+        });
+      } else {
+        controls.start({
+          x: shape.initialX,
+          y: shape.initialY,
+          transition: { type: "spring", stiffness: 50, damping: 10 }
+        });
+      }
+    };
+
+    updatePosition();
+  }, [mouseX, mouseY, shape, controls, attractionRadius, attractionStrength]);
+
+  const baseAnimation = {
+    rotate: [shape.rotation, shape.rotation + 360],
+    scale: [1, 1.05, 1],
+    transition: {
+      rotate: {
+        duration: 20,
+        repeat: Infinity,
+        ease: "linear"
+      },
+      scale: {
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
   };
 
-  switch (shape.type) {
-    case 'circle':
-      return <motion.div {...commonMotionProps} className="rounded-full" />;
-    case 'rectangle':
-      return <motion.div {...commonMotionProps} className="rounded-lg" />;
-    case 'polygon':
-      return (
-        <motion.div
-          {...commonMotionProps}
-          style={{
-            ...commonMotionProps.style,
-            clipPath: `polygon(${shape.points?.map((p, i) => {
-              const angle = (i / (shape.points?.length || 1)) * Math.PI * 2;
-              const radius = shape.size / 2 * (0.5 + p * 0.5);
-              const x = 50 + Math.cos(angle) * radius;
-              const y = 50 + Math.sin(angle) * radius;
-              return `${x}% ${y}%`;
-            }).join(', ')})`,
-          }}
-        />
-      );
-    default:
-      return null;
-  }
+  return (
+    <motion.div
+      animate={controls}
+      style={{ x, y }}
+      className="absolute"
+    >
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{
+          ...baseAnimation,
+          opacity: 1
+        }}
+        whileHover={{
+          scale: 1.2,
+          filter: "brightness(1.2)",
+          boxShadow: theme === 'dark' 
+            ? '0 0 20px rgba(255,255,255,0.2)' 
+            : '0 10px 20px rgba(0,0,0,0.1)',
+        }}
+        className={`transition-colors duration-300`}
+        style={{
+          width: shape.size,
+          height: shape.type === 'circle' ? shape.size : shape.type === 'rectangle' ? shape.size * 0.75 : shape.size,
+          backgroundColor: shape.color,
+          borderRadius: shape.type === 'circle' ? '50%' : shape.type === 'rectangle' ? '8px' : '0',
+          clipPath: shape.type === 'polygon' ? `polygon(${shape.points?.map((p, i) => {
+            const angle = (i / (shape.points?.length || 1)) * Math.PI * 2;
+            const radius = shape.size / 2 * (0.5 + p * 0.5);
+            const x = 50 + Math.cos(angle) * radius;
+            const y = 50 + Math.sin(angle) * radius;
+            return `${x}% ${y}%`;
+          }).join(', ')})` : undefined,
+        }}
+      />
+    </motion.div>
+  );
 };
 
 export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
@@ -110,8 +157,12 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   ],
   minSize = 50,
   maxSize = 200,
+  attractionRadius = 200,
+  attractionStrength = 0.2
 }) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -133,13 +184,38 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [count, colors, minSize, maxSize]);
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <div className={`fixed inset-0 overflow-hidden pointer-events-none transition-colors duration-300 ${
-      theme === 'dark' ? 'bg-dark-bg' : 'bg-light-bg'
-    }`}>
+    <div
+      ref={containerRef}
+      className={`fixed inset-0 overflow-hidden transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-dark-bg' : 'bg-light-bg'
+      }`}
+    >
       <div className="relative w-full h-full">
         {shapes.map((shape) => (
-          <ShapeComponent key={shape.id} shape={shape} />
+          <ShapeComponent
+            key={shape.id}
+            shape={shape}
+            mouseX={mousePosition.x}
+            mouseY={mousePosition.y}
+            attractionRadius={attractionRadius}
+            attractionStrength={attractionStrength}
+          />
         ))}
       </div>
     </div>
