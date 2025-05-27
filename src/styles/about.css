@@ -1,0 +1,19 @@
+.about-section {
+  @apply max-w-7xl mx-auto px-4 py-16;
+}
+
+.about-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8 items-start;
+}
+
+.about-image {
+  @apply relative w-64 h-64 mx-auto lg:mx-0;
+}
+
+.about-content {
+  @apply prose prose-lg dark:prose-invert;
+}
+
+.skills-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6 mt-12;
+}
