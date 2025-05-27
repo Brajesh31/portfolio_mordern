@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { Briefcase } from 'lucide-react';
 import SectionHeading from '../common/SectionHeading';
+import { useTheme } from '../ThemeProvider';
 import 'react-vertical-timeline-component/style.min.css';
 
 const experienceList = [
@@ -61,6 +62,8 @@ const experienceList = [
 ];
 
 const Experience = () => {
+  const { theme } = useTheme();
+
   return (
     <div className="container-section">
       <SectionHeading 
@@ -68,20 +71,28 @@ const Experience = () => {
         subtitle="My professional journey and work history"
       />
       
-      <VerticalTimeline lineColor="#2563eb">
+      <VerticalTimeline lineColor={theme === 'dark' ? '#2563eb' : '#3b82f6'}>
         {experienceList.map((item, index) => (
           <VerticalTimelineElement
             key={index}
             date={item.date}
             icon={<Briefcase />}
-            iconClassName="bg-secondary-700 text-white"
+            iconClassName={theme === 'dark' ? 'bg-dark-accent-secondary' : 'bg-light-accent-secondary'}
             contentStyle={{ 
-              background: '#121212', 
-              color: '#fff',
-              boxShadow: '0 4px 16px rgba(20, 184, 166, 0.1)',
-              border: '1px solid rgba(20, 184, 166, 0.2)',
+              background: theme === 'dark' ? 'rgba(17, 17, 27, 0.8)' : 'rgba(255, 255, 255, 0.8)', 
+              color: theme === 'dark' ? '#fff' : '#1f2937',
+              boxShadow: theme === 'dark'
+                ? '0 4px 16px rgba(20, 184, 166, 0.1)'
+                : '0 4px 16px rgba(20, 184, 166, 0.05)',
+              border: theme === 'dark'
+                ? '1px solid rgba(20, 184, 166, 0.2)'
+                : '1px solid rgba(20, 184, 166, 0.1)',
             }}
-            contentArrowStyle={{ borderRight: '7px solid rgba(20, 184, 166, 0.2)' }}
+            contentArrowStyle={{ 
+              borderRight: theme === 'dark'
+                ? '7px solid rgba(20, 184, 166, 0.2)'
+                : '7px solid rgba(20, 184, 166, 0.1)'
+            }}
             visible={true}
           >
             <motion.div
@@ -89,12 +100,19 @@ const Experience = () => {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="transition-colors duration-300"
             >
-              <h3 className="text-xl font-bold">{item.title}</h3>
-              <h4 className="text-lg text-secondary-400">{item.company}</h4>
-              <p className="text-gray-400 mb-4">{item.location}</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                {item.title}
+              </h3>
+              <h4 className="text-lg text-secondary-600 dark:text-secondary-400">
+                {item.company}
+              </h4>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                {item.location}
+              </p>
               
-              <ul className="list-disc list-inside text-gray-300 space-y-2">
+              <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
                 {item.description.map((desc, i) => (
                   <li key={i}>{desc}</li>
                 ))}
