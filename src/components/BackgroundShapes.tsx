@@ -2,20 +2,19 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 
-export const shapes = ['circle', 'rectangle', 'polygon'] as const;
+type ShapeType = 'circle' | 'square' | 'hexagon';
 
-type Shape = {
+interface Shape {
   id: number;
-  type: typeof shapes[number];
+  type: ShapeType;
   x: number;
   y: number;
   size: number;
   color: string;
   rotation: number;
-  points?: number[];
   initialX: number;
   initialY: number;
-};
+}
 
 interface BackgroundShapesProps {
   count?: number;
@@ -33,7 +32,8 @@ const generateRandomShape = (
   minSize: number,
   maxSize: number
 ): Shape => {
-  const type = shapes[Math.floor(Math.random() * shapes.length)];
+  const types: ShapeType[] = ['circle', 'square', 'hexagon'];
+  const type = types[Math.floor(Math.random() * types.length)];
   const size = Math.random() * (maxSize - minSize) + minSize;
   const x = Math.random() * (width - size);
   const y = Math.random() * (height - size);
@@ -46,7 +46,6 @@ const generateRandomShape = (
     size,
     color: colors[Math.floor(Math.random() * colors.length)],
     rotation: Math.random() * 360,
-    points: type === 'polygon' ? Array.from({ length: 3 + Math.floor(Math.random() * 4) }, () => Math.random()) : undefined,
     initialX: x,
     initialY: y,
   };
@@ -59,7 +58,6 @@ const ShapeComponent: React.FC<{
   attractionRadius: number;
   attractionStrength: number;
 }> = ({ shape, mouseX, mouseY, attractionRadius, attractionStrength }) => {
-  const { theme } = useTheme();
   const controls = useAnimation();
   const x = useMotionValue(shape.x);
   const y = useMotionValue(shape.y);
@@ -92,21 +90,17 @@ const ShapeComponent: React.FC<{
     updatePosition();
   }, [mouseX, mouseY, shape, controls, attractionRadius, attractionStrength]);
 
-  const baseAnimation = {
-    rotate: [shape.rotation, shape.rotation + 360],
-    scale: [1, 1.05, 1],
-    transition: {
-      rotate: {
-        duration: 20,
-        repeat: Infinity,
-        ease: "linear"
-      },
-      scale: {
-        duration: 4,
-        repeat: Infinity,
-        ease: "easeInOut"
+  const getShapePath = () => {
+    if (shape.type === 'hexagon') {
+      const a = shape.size / 2;
+      const points = [];
+      for (let i = 0; i < 6; i++) {
+        const angle = (i * Math.PI) / 3;
+        points.push(`${a + a * Math.cos(angle)},${a + a * Math.sin(angle)}`);
       }
+      return `polygon(${points.join(' ')})`;
     }
+    return undefined;
   };
 
   return (
@@ -118,29 +112,21 @@ const ShapeComponent: React.FC<{
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{
-          ...baseAnimation,
-          opacity: 1
+          scale: 1,
+          opacity: 1,
+          rotate: [shape.rotation, shape.rotation + 360],
         }}
-        whileHover={{
-          scale: 1.2,
-          filter: "brightness(1.2)",
-          boxShadow: theme === 'dark' 
-            ? '0 0 20px rgba(255,255,255,0.2)' 
-            : '0 10px 20px rgba(0,0,0,0.1)',
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear",
         }}
-        className={`transition-colors duration-300`}
         style={{
           width: shape.size,
-          height: shape.type === 'circle' ? shape.size : shape.type === 'rectangle' ? shape.size * 0.75 : shape.size,
+          height: shape.size,
           backgroundColor: shape.color,
-          borderRadius: shape.type === 'circle' ? '50%' : shape.type === 'rectangle' ? '8px' : '0',
-          clipPath: shape.type === 'polygon' ? `polygon(${shape.points?.map((p, i) => {
-            const angle = (i / (shape.points?.length || 1)) * Math.PI * 2;
-            const radius = shape.size / 2 * (0.5 + p * 0.5);
-            const x = 50 + Math.cos(angle) * radius;
-            const y = 50 + Math.sin(angle) * radius;
-            return `${x}% ${y}%`;
-          }).join(', ')})` : undefined,
+          borderRadius: shape.type === 'circle' ? '50%' : shape.type === 'square' ? '4px' : '0',
+          clipPath: shape.type === 'hexagon' ? getShapePath() : undefined,
         }}
       />
     </motion.div>
@@ -148,17 +134,16 @@ const ShapeComponent: React.FC<{
 };
 
 export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
-  count = 10,
+  count = 35,
   colors = [
-    'rgba(127, 83, 172, 0.1)',  // Purple
-    'rgba(100, 125, 238, 0.1)', // Blue
-    'rgba(67, 198, 172, 0.1)',  // Teal
-    'rgba(248, 255, 174, 0.1)', // Yellow
+    'rgba(59, 130, 246, 0.08)', // Blue
+    'rgba(99, 102, 241, 0.08)', // Indigo
+    'rgba(139, 92, 246, 0.08)', // Purple
   ],
-  minSize = 50,
-  maxSize = 200,
-  attractionRadius = 200,
-  attractionStrength = 0.2
+  minSize = 32,
+  maxSize = 80,
+  attractionRadius = 150,
+  attractionStrength = 0.15
 }) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -202,7 +187,7 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`fixed inset-0 overflow-hidden transition-colors duration-300 ${
+      className={`fixed inset-0 overflow-hidden pointer-events-none transition-colors duration-300 ${
         theme === 'dark' ? 'bg-dark-bg' : 'bg-light-bg'
       }`}
     >
