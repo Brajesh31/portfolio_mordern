@@ -56,7 +56,7 @@ const SocialSidebar = () => {
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed right-6 top-[40%] z-40 flex flex-col gap-3"
+      className="fixed right-6 top-[35%] z-40 flex flex-col gap-3"
     >
       {socialLinks.map((link, index) => (
         <motion.a
