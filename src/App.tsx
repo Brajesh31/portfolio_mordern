@@ -4,6 +4,7 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { ScrollToTop } from './components/common/ScrollToTop';
 import { Loader } from './components/common/Loader';
+import { BackgroundShapes } from './components/BackgroundShapes';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EducationPage from './pages/EducationPage';
@@ -18,6 +19,18 @@ function App() {
   return (
     <Router>
       <div className="relative bg-dark-300 text-white">
+        <BackgroundShapes 
+          count={20}
+          colors={[
+            'rgba(59, 130, 246, 0.1)',
+            'rgba(16, 185, 129, 0.1)',
+            'rgba(236, 72, 153, 0.1)',
+            'rgba(245, 158, 11, 0.1)',
+            'rgba(139, 92, 246, 0.1)',
+          ]}
+          minSize={100}
+          maxSize={300}
+        />
         <div className="absolute top-0 right-0 w-1/2 h-screen bg-radial-gradient -z-10" />
         
         <Navbar />
@@ -43,4 +56,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
