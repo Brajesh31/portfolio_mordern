@@ -1,11 +1,10 @@
-// @ts-ignore
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionHeading from '../common/SectionHeading';
 
 const FlippingProfilePicture = () => {
   return (
-    <div className="perspective-1000 w-64 h-64 mx-auto mb-8">
+    <div className="perspective-1000 w-64 h-64">
       <motion.div
         className="relative w-full h-full transition-transform duration-500 transform-style-3d cursor-pointer"
         whileHover={{ rotateY: 180 }}
@@ -75,43 +74,48 @@ const About = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="bg-dark-200 rounded-xl p-6 md:p-8 lg:p-10 border border-gray-800 shadow-lg"
+        className="bg-white dark:bg-dark-200 rounded-xl p-6 md:p-8 lg:p-10 border border-gray-200 dark:border-gray-800 shadow-lg"
       >
-        <FlippingProfilePicture />
-        <motion.p
-          {...fadeInUp}
-          className="text-lg md:text-xl leading-relaxed text-gray-300 space-y-4"
-        >
-          I'm <strong>Brajesh Kumar</strong>, a passionate and adaptable
-          Computer Science and Engineering student at GL Bajaj Group of
-          Institutions (Batch 2023–2027). With a strong foundation in full-stack
-          development, machine learning, and AI-based systems, I thrive on
-          building real-world tech solutions that are not only innovative but
-          impactful.
-          <br />
-          <br />I bring a hands-on approach to problem-solving, demonstrated
-          through my wide array of projects ranging from intelligent personal
-          assistants like <em>Emma</em>, AI-powered therapy bots like{' '}
-          <em>Thea</em>, to full-fledged web platforms like <em>SEMAC</em> and{' '}
-          <em>IdeaPool</em>. I've also contributed to game development and
-          ed-tech innovations, combining creativity with code.
-          <br />
-          <br />
-          My toolkit includes a wide stack of technologies: MERN, Python,
-          Django, Flutter, React Native, TensorFlow, GANs, and cloud tools like
-          AWS. I'm constantly learning, experimenting, and pushing boundaries.
-          <br />
-          <br />
-          I've interned with over 10 companies, gaining real-world exposure in
-          Python development, web design, and AI systems. I hold over 100+
-          certifications from platforms like IBM, Coursera, Forage, Google
-          Cloud, Cisco, and more, and I actively participate in hackathons,
-          CTFs, and coding contests (3★ CodeChef, 5★ HackerRank in Python).
-          <br />
-          <br />
-          Beyond code, I'm a team player, quick learner, and a creative thinker
-          — always excited to collaborate and bring new ideas to life.
-        </motion.p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="flex justify-center lg:justify-start">
+            <FlippingProfilePicture />
+          </div>
+          
+          <motion.div {...fadeInUp}>
+            <p className="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 space-y-4">
+              I'm <strong>Brajesh Kumar</strong>, a passionate and adaptable
+              Computer Science and Engineering student at GL Bajaj Group of
+              Institutions (Batch 2023–2027). With a strong foundation in full-stack
+              development, machine learning, and AI-based systems, I thrive on
+              building real-world tech solutions that are not only innovative but
+              impactful.
+              <br />
+              <br />
+              I bring a hands-on approach to problem-solving, demonstrated through
+              my wide array of projects ranging from intelligent personal
+              assistants like <em>Emma</em>, AI-powered therapy bots like{' '}
+              <em>Thea</em>, to full-fledged web platforms like <em>SEMAC</em> and{' '}
+              <em>IdeaPool</em>. I've also contributed to game development and
+              ed-tech innovations, combining creativity with code.
+              <br />
+              <br />
+              My toolkit includes a wide stack of technologies: MERN, Python,
+              Django, Flutter, React Native, TensorFlow, GANs, and cloud tools like
+              AWS. I'm constantly learning, experimenting, and pushing boundaries.
+              <br />
+              <br />
+              I've interned with over 10 companies, gaining real-world exposure in
+              Python development, web design, and AI systems. I hold over 100+
+              certifications from platforms like IBM, Coursera, Forage, Google
+              Cloud, Cisco, and more, and I actively participate in hackathons,
+              CTFs, and coding contests (3★ CodeChef, 5★ HackerRank in Python).
+              <br />
+              <br />
+              Beyond code, I'm a team player, quick learner, and a creative thinker
+              — always excited to collaborate and bring new ideas to life.
+            </p>
+          </motion.div>
+        </div>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
