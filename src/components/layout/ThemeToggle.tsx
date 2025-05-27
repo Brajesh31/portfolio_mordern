@@ -4,14 +4,24 @@ import { Sun, Moon } from 'lucide-react';
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true;
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme ? savedTheme === 'dark' : true;
+    }
+    return true;
   });
 
   useEffect(() => {
+    // Sync with localStorage and HTML class
     document.documentElement.classList.toggle('dark', isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
+
+  // Add initial theme class before React hydration
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+  }, []);
 
   const toggleTheme = () => {
     setIsDark(!isDark);
