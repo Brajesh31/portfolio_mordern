@@ -19,7 +19,7 @@ const contactInfo = [
     content: 'Noida, India',
   },
   {
-    icon: <Linkedin className="text-primary-400" size={24} />,
+    icon: <Linkedin className="text-primary-400\" size={24} />,
     title: 'LinkedIn',
     content: 'linkedin.com/in/brajesh-kumar-9b58651a8',
     link: 'https://www.linkedin.com/in/brajesh-kumar-9b58651a8/',
@@ -262,3 +262,5 @@ const Contact = () => {
 };
 
 export default Contact;
+
+export default Contact
