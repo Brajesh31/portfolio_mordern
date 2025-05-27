@@ -41,7 +41,7 @@ const ContactCard: React.FC<{ info: (typeof contactInfo)[0] }> = ({ info }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="bg-light-card dark:bg-dark-card p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300"
+      className="bg-light-card dark:bg-dark-card p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary-500 transition-all duration-300"
     >
       <div className="flex items-start gap-4">
         <div className="icon-box bg-light-bg dark:bg-dark-bg">{info.icon}</div>
@@ -262,5 +262,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
-export default Contact

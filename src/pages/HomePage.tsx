@@ -9,7 +9,7 @@ import Education from '../components/sections/Education';
 import Experience from '../components/sections/Experience';
 import Contact from '../components/sections/Contact';
 import ThemeAwareImage from '../components/ThemeAwareImage';
-import { useTheme } from '../ThemeProvider';
+import { useTheme } from '../components/ThemeProvider';
 
 // Featured skills with their icons
 const featuredSkills = [
