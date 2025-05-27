@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from './ThemeProvider';
 
 export const shapes = ['circle', 'rectangle', 'polygon'] as const;
 
@@ -21,14 +22,6 @@ interface BackgroundShapesProps {
   maxSize?: number;
 }
 
-const defaultColors = [
-  'rgba(59, 130, 246, 0.2)', // blue
-  'rgba(16, 185, 129, 0.2)', // green
-  'rgba(236, 72, 153, 0.2)', // pink
-  'rgba(245, 158, 11, 0.2)', // yellow
-  'rgba(139, 92, 246, 0.2)', // purple
-];
-
 const generateRandomShape = (
   width: number,
   height: number,
@@ -38,8 +31,6 @@ const generateRandomShape = (
 ): Shape => {
   const type = shapes[Math.floor(Math.random() * shapes.length)];
   const size = Math.random() * (maxSize - minSize) + minSize;
-  
-  // Ensure shapes stay within viewport bounds
   const x = Math.random() * (width - size);
   const y = Math.random() * (height - size);
   
@@ -56,6 +47,8 @@ const generateRandomShape = (
 };
 
 const ShapeComponent: React.FC<{ shape: Shape }> = ({ shape }) => {
+  const { theme } = useTheme();
+  
   const commonMotionProps = {
     initial: { scale: 0, opacity: 0 },
     animate: { scale: 1, opacity: 1 },
@@ -64,7 +57,9 @@ const ShapeComponent: React.FC<{ shape: Shape }> = ({ shape }) => {
       rotate: shape.rotation + Math.random() * 90 - 45,
       y: -10,
       filter: 'brightness(1.2)',
-      boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
+      boxShadow: theme === 'dark' 
+        ? '0 0 20px rgba(255,255,255,0.2)' 
+        : '0 10px 20px rgba(0,0,0,0.1)',
       transition: { duration: 0.3 },
     },
     style: {
@@ -75,6 +70,7 @@ const ShapeComponent: React.FC<{ shape: Shape }> = ({ shape }) => {
       width: shape.size,
       height: shape.type === 'circle' ? shape.size : shape.type === 'rectangle' ? shape.size * 0.75 : shape.size,
       rotate: `${shape.rotation}deg`,
+      pointerEvents: 'auto',
     },
   };
 
@@ -105,12 +101,18 @@ const ShapeComponent: React.FC<{ shape: Shape }> = ({ shape }) => {
 };
 
 export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
-  count = 15,
-  colors = defaultColors,
+  count = 10,
+  colors = [
+    'rgba(127, 83, 172, 0.1)',  // Purple
+    'rgba(100, 125, 238, 0.1)', // Blue
+    'rgba(67, 198, 172, 0.1)',  // Teal
+    'rgba(248, 255, 174, 0.1)', // Yellow
+  ],
   minSize = 50,
   maxSize = 200,
 }) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const generateShapes = () => {
@@ -132,7 +134,9 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   }, [count, colors, minSize, maxSize]);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className={`fixed inset-0 overflow-hidden pointer-events-none transition-colors duration-300 ${
+      theme === 'dark' ? 'bg-dark-bg' : 'bg-light-bg'
+    }`}>
       <div className="relative w-full h-full">
         {shapes.map((shape) => (
           <ShapeComponent key={shape.id} shape={shape} />
