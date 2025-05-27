@@ -71,5 +71,6 @@ export default {
     'bg-primary-400',
     'border-primary-400',
     'hover:border-primary-400',
+    'hover:after:w-3/4'
   ],
 }
