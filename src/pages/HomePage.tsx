@@ -9,7 +9,7 @@ import Education from '../components/sections/Education';
 import Experience from '../components/sections/Experience';
 import Contact from '../components/sections/Contact';
 import ThemeAwareImage from '../components/ThemeAwareImage';
-import { useTheme } from '../components/ThemeProvider';
+import { useTheme } from '../ThemeProvider';
 
 // Featured skills with their icons
 const featuredSkills = [
@@ -252,14 +252,18 @@ function HomePage() {
         </div>
       </FeaturedSection>
 
-      {/* Education Section */}
-      <Education />
-
-      {/* Experience Section */}
-      <Experience />
-
-      {/* Contact Section */}
-      <Contact />
+      {/* Right-aligned sections */}
+      <div className="flex flex-col items-end">
+        <div className="w-full lg:w-2/3">
+          <Education />
+        </div>
+        <div className="w-full lg:w-2/3">
+          <Experience />
+        </div>
+        <div className="w-full lg:w-2/3">
+          <Contact />
+        </div>
+      </div>
     </div>
   );
 }

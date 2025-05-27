@@ -50,10 +50,9 @@ const Education = () => {
 
   return (
     <div className="container-section">
-      <SectionHeading 
-        title="Education" 
-        subtitle="My academic journey and qualifications"
-      />
+      <div className="text-right mb-12">
+        <h2 className="text-3xl font-bold text-primary-500">Education</h2>
+      </div>
       
       <VerticalTimeline lineColor={theme === 'dark' ? '#2563eb' : '#3b82f6'}>
         {educationList.map((item, index) => (
