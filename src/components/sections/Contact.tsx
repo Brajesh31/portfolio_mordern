@@ -13,7 +13,7 @@ const contactInfo = [
     link: 'mailto:bk117134@gmail.com',
   },
   {
-    icon: <MapPin className="text-primary-400\" size={24} />,
+    icon: <MapPin className="text-primary-400" size={24} />,
     title: 'Location',
     content: 'Noida, India',
   },
@@ -24,7 +24,7 @@ const contactInfo = [
     link: 'https://www.linkedin.com/in/brajesh-kumar-9b58651a8/',
   },
   {
-    icon: <Github className="text-primary-400\" size={24} />,
+    icon: <Github className="text-primary-400" size={24} />,
     title: 'GitHub',
     content: 'github.com/Brajesh31',
     link: 'https://github.com/Brajesh31',
@@ -87,17 +87,26 @@ const Contact = () => {
     setSubmitError('');
 
     try {
-      await emailjs.sendForm(
-        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
-        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
-        form.current!,
-        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
-      );
+      if (form.current) {
+        const result = await emailjs.sendForm(
+          'service_05dg8gb',
+          'template_nc3hzma',
+          form.current,
+          'hVCchBBYiwnvcbVbL'
+        );
 
-      setSubmitSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+        if (result.status === 200) {
+          setSubmitSuccess(true);
+          setFormData({
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+          });
+        }
+      }
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('EmailJS error:', error);
       setSubmitError('Failed to send message. Please try again later.');
     } finally {
       setIsSubmitting(false);
