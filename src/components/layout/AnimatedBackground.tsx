@@ -1,19 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export const shapes = ["circle", "rectangle", "polygon"];
+export const shapes = ["circle", "rectangle", "polygon", "hexagon"];
 
 const Shape: React.FC<{ type: string; index: number }> = ({ type, index }) => {
-  const baseStyles = "absolute opacity-10 dark:opacity-5 pointer-events-none";
+  const baseStyles = "absolute opacity-10 dark:opacity-5 pointer-events-none backdrop-blur-3xl";
   const colors = [
     'bg-primary-500',
     'bg-secondary-500',
-    'bg-accent-500'
+    'bg-accent-500',
+    'bg-primary-400',
+    'bg-secondary-400'
   ];
 
   const getRandomPosition = () => ({
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
+    transform: `scale(${0.5 + Math.random() * 1.5})`,
   });
 
   const getShapeStyles = () => {
@@ -23,7 +26,9 @@ const Shape: React.FC<{ type: string; index: number }> = ({ type, index }) => {
       case 'rectangle':
         return 'w-40 h-24 rotate-45';
       case 'polygon':
-        return 'w-32 h-32 rotate-45 transform-gpu';
+        return 'w-32 h-32 clip-path-polygon transform-gpu';
+      case 'hexagon':
+        return 'w-32 h-32 clip-path-hexagon';
       default:
         return '';
     }
@@ -68,7 +73,7 @@ const Shape: React.FC<{ type: string; index: number }> = ({ type, index }) => {
 const AnimatedBackground = () => {
   // Create multiple instances of each shape type
   const shapesArray = shapes.reduce((acc, shape) => {
-    return [...acc, ...Array(3).fill(shape)]; // 3 instances of each shape
+    return [...acc, ...Array(4).fill(shape)]; // 4 instances of each shape
   }, [] as string[]);
 
   return (
