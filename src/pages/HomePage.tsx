@@ -1,28 +1,82 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, ImageIcon, ExternalLink } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { personalInfo } from '../data/personal';
-import { projects } from '../data/projects';
-import { certificates } from '../data/certificates';
+import Education from '../components/sections/Education';
+import Experience from '../components/sections/Experience';
 import ThemeAwareImage from '../components/ThemeAwareImage';
+import { useTheme } from '../components/ThemeProvider';
 
-const FeaturedSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="mt-20">
-    <div className="flex justify-between items-center mb-8">
-      <h2 className="text-2xl font-bold">{title}</h2>
-      <Link to={`/${title.toLowerCase()}`} className="text-primary-500 hover:text-primary-400 flex items-center gap-1">
-        View All <ExternalLink size={16} />
-      </Link>
+// Featured skills with their icons
+const featuredSkills = [
+  { name: 'React', icon: '⚛️', color: '#61DAFB' },
+  { name: 'TypeScript', icon: '📘', color: '#3178C6' },
+  { name: 'Node.js', icon: '🟩', color: '#339933' },
+  { name: 'Python', icon: '🐍', color: '#3776AB' },
+  { name: 'MongoDB', icon: '🍃', color: '#47A248' },
+  { name: 'AWS', icon: '☁️', color: '#FF9900' },
+];
+
+const SkillBall: React.FC<{ skill: typeof featuredSkills[0]; index: number }> = ({ skill, index }) => {
+  const { theme } = useTheme();
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ scale: 1.1, rotate: 360 }}
+      className="relative group"
+    >
+      <motion.div
+        animate={{
+          y: [0, -10, 0],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
+          delay: index * 0.2,
+        }}
+        className={`w-24 h-24 rounded-full flex items-center justify-center text-3xl
+          shadow-lg transform-gpu perspective-1000 cursor-pointer
+          ${theme === 'dark' 
+            ? 'bg-dark-card hover:bg-dark-bg' 
+            : 'bg-light-card hover:bg-light-bg'} 
+          transition-all duration-300`}
+        style={{
+          boxShadow: `0 0 20px ${skill.color}20`,
+        }}
+      >
+        {skill.icon}
+      </motion.div>
+      
+      {/* Tooltip */}
+      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className={`px-2 py-1 text-sm rounded ${theme === 'dark' ? 'bg-dark-card' : 'bg-light-card'} shadow-lg whitespace-nowrap`}>
+          {skill.name}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const FeaturedSkills = () => {
+  return (
+    <div className="py-20">
+      <h2 className="text-3xl font-bold text-center mb-12">Featured Skills</h2>
+      <div className="flex flex-wrap justify-center gap-12">
+        {featuredSkills.map((skill, index) => (
+          <SkillBall key={skill.name} skill={skill} index={index} />
+        ))}
+      </div>
     </div>
-    {children}
-  </div>
-);
+  );
+};
 
 function HomePage() {
-  const featuredProjects = projects.filter(project => project.featured).slice(0, 3);
-  const featuredCertificates = certificates.filter(cert => cert.featured).slice(0, 3);
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -67,7 +121,7 @@ function HomePage() {
               <span className="block">{personalInfo.fullName.split(' ')[0]}</span>
               <span className="block text-primary-500">{personalInfo.fullName.split(' ')[1]}</span>
             </h1>
-            <h2 className="text-xl sm:text-2xl text-gray-400 mb-8">
+            <h2 className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 mb-8">
               {personalInfo.title}
             </h2>
             
@@ -86,90 +140,21 @@ function HomePage() {
               </Link>
             </div>
             
-            <p className="text-gray-400 text-lg">
+            <p className="text-gray-600 dark:text-gray-400 text-lg">
               {personalInfo.bio.split('\n')[0]}
             </p>
           </motion.div>
         </div>
-
-        {/* Featured Projects */}
-        <FeaturedSection title="Projects">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProjects.map((project) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="card overflow-hidden group"
-              >
-                <div
-                  className="h-48 bg-cover bg-center rounded-lg mb-4"
-                  style={{ backgroundImage: `url(${project.image})` }}
-                />
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-gray-400 text-sm mb-4 line-clamp-2">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="skill-tag text-xs">{tag}</span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </FeaturedSection>
-
-        {/* Featured Certificates */}
-        <FeaturedSection title="Certificates">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredCertificates.map((cert) => (
-              <motion.div
-                key={cert.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="card overflow-hidden group"
-              >
-                <div
-                  className="h-48 bg-cover bg-center rounded-lg mb-4"
-                  style={{ backgroundImage: `url(${cert.image})` }}
-                />
-                <h3 className="text-xl font-semibold mb-2">{cert.title}</h3>
-                <p className="text-gray-400 text-sm mb-2">{cert.issuer}</p>
-                <p className="text-gray-500 text-xs">{cert.date}</p>
-              </motion.div>
-            ))}
-          </div>
-        </FeaturedSection>
-
-        {/* Quick Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20">
-          {[
-            { title: 'About Me', path: '/about' },
-            { title: 'Education', path: '/education' },
-            { title: 'Experience', path: '/experience' },
-            { title: 'Skills', path: '/skills' }
-          ].map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Link
-                to={item.path}
-                className="card group text-center py-8 hover:bg-primary-900/10 block"
-              >
-                <h3 className="text-lg font-medium group-hover:text-primary-400">
-                  {item.title}
-                </h3>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
       </div>
+
+      {/* Featured Skills Section */}
+      <FeaturedSkills />
+
+      {/* Education Section */}
+      <Education />
+
+      {/* Experience Section */}
+      <Experience />
     </div>
   );
 }
