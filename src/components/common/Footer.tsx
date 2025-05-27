@@ -39,10 +39,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className={`w-full py-8 border-t transition-colors duration-300 
+    <footer className={`relative w-full mt-auto py-8 border-t z-10 transition-colors duration-300 
       ${theme === 'dark' 
-        ? 'bg-dark-card border-gray-800' 
-        : 'bg-light-card border-gray-200'}`}
+        ? 'bg-dark-card/95 backdrop-blur-sm border-gray-800' 
+        : 'bg-light-card/95 backdrop-blur-sm border-gray-200'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -60,7 +60,7 @@ const Footer = () => {
                 alt="Logo" 
                 className="h-10 w-10 rounded-full"
               />
-              <span className="text-xl font-bold">
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Brajesh<span className="text-primary-500">.</span>
               </span>
             </Link>
@@ -77,7 +77,7 @@ const Footer = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center md:items-start"
           >
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Quick Links</h3>
             <ul className="flex flex-wrap justify-center md:justify-start gap-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -100,7 +100,7 @@ const Footer = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center md:items-start"
           >
-            <h3 className="text-lg font-semibold mb-4">Connect</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Connect</h3>
             <div className="flex gap-4">
               {socialLinks.map((link) => (
                 <a

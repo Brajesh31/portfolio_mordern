@@ -21,7 +21,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <div className="relative min-h-screen transition-colors duration-300 dark:bg-dark-bg bg-light-bg text-gray-900 dark:text-white">
+        <div className="relative min-h-screen flex flex-col transition-colors duration-300 dark:bg-dark-bg bg-light-bg text-gray-900 dark:text-white">
           <BackgroundShapes 
             count={12}
             colors={[
@@ -37,7 +37,7 @@ function App() {
           <Navbar />
           <SocialSidebar />
           
-          <main className="relative z-10">
+          <main className="relative z-10 flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
