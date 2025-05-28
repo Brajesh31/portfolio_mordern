@@ -85,22 +85,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
 
       clearTimeout(timeout);
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: config.responses.error }));
-        throw new Error(errorData.error || config.responses.error);
-      }
-
-      const responseText = await response.text();
-      if (!responseText) {
-        throw new Error('Empty response from server');
-      }
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('JSON parse error:', parseError);
-        throw new Error('Invalid response format from server');
+        throw new Error(data.error || 'An error occurred while processing your request');
       }
 
       if (!data.response?.content) {
@@ -121,7 +109,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
-          errorMessage = config.responses.timeout;
+          errorMessage = 'Request timed out. Please try again.';
+        } else if (error.message.includes('API key')) {
+          errorMessage = 'The service is not properly configured. Please contact support.';
+        } else if (error.message.includes('rate limit')) {
+          errorMessage = 'Too many requests. Please wait a moment and try again.';
+        } else if (error.message.includes('maintenance') || error.message.includes('unavailable')) {
+          errorMessage = 'The service is temporarily unavailable. Please try again later.';
         } else {
           errorMessage = error.message;
         }
