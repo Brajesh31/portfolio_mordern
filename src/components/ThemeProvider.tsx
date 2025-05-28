@@ -21,9 +21,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.className = savedTheme;
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    } else {
       setTheme('dark');
       document.documentElement.className = 'dark';
+      localStorage.setItem('theme', 'dark');
     }
   }, []);
 
