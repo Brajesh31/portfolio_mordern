@@ -71,7 +71,7 @@ const FeaturedSection: React.FC<{
   viewAllLink: string;
   children: React.ReactNode;
 }> = ({ title, viewAllLink, children }) => (
-  <div className="py-20">
+  <div className="py-20 max-w-6xl mx-auto px-4">
     <div className="flex justify-between items-center mb-12">
       <h2 className="text-3xl font-bold">{title}</h2>
       <Link
