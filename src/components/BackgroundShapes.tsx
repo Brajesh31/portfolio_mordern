@@ -139,6 +139,9 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
     'rgba(59, 130, 246, 0.08)', // Blue
     'rgba(99, 102, 241, 0.08)', // Indigo
     'rgba(139, 92, 246, 0.08)', // Purple
+    'rgba(236, 72, 153, 0.08)', // Pink
+    'rgba(239, 68, 68, 0.08)', // Red
+    'rgba(16, 185, 129, 0.08)', // Green
   ],
   minSize = 32,
   maxSize = 80,
@@ -190,6 +193,7 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
       className={`fixed inset-0 overflow-hidden pointer-events-none transition-colors duration-300 ${
         theme === 'dark' ? 'bg-dark-bg' : 'bg-light-bg'
       }`}
+      style={{ zIndex: -1 }}
     >
       <div className="relative w-full h-full">
         {shapes.map((shape) => (
