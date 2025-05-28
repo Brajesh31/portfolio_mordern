@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Send, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SectionHeading from '../common/SectionHeading';
 import { useTheme } from '../ThemeProvider';
 
@@ -145,8 +145,9 @@ const Services = () => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [showBanner, setShowBanner] = useState(false);
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
       setShowBanner(bottom);
@@ -160,11 +161,8 @@ const Services = () => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
   };
 
-  const scrollToContact = (service: string) => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleContactClick = (service: string) => {
+    navigate('/contact', { state: { selectedService: service } });
   };
 
   return (
@@ -233,7 +231,7 @@ const Services = () => {
                             {service.description}
                           </p>
                           <button
-                            onClick={() => scrollToContact(service.title)}
+                            onClick={() => handleContactClick(service.title)}
                             className="text-sm flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
                           >
                             <Send size={14} /> Contact for this service
