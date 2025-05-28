@@ -65,12 +65,23 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
+      const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+      const siteUrl = import.meta.env.VITE_SITE_URL;
+
+      if (!apiKey) {
+        throw new Error('OpenRouter API key is not configured');
+      }
+
+      if (!siteUrl) {
+        throw new Error('Site URL is not configured');
+      }
+
       const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
-          'HTTP-Referer': import.meta.env.VITE_SITE_URL,
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': siteUrl,
           'X-Title': 'Portfolio AI Chatbot'
         },
         body: JSON.stringify({
@@ -90,10 +101,20 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response from AI');
+        const errorData = await response.json().catch(() => null);
+        throw new Error(
+          `API request failed with status ${response.status}: ${
+            errorData?.error?.message || 'Unknown error'
+          }`
+        );
       }
 
       const data = await response.json();
+      
+      if (!data.choices?.[0]?.message?.content) {
+        throw new Error('Invalid response format from API');
+      }
+
       const botMessage = {
         text: data.choices[0].message.content.trim(),
         isBot: true,
@@ -108,6 +129,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = "The request took too long to complete. Please try again with a shorter message.";
+        } else if (error.message.includes('API key')) {
+          errorMessage = "There's an issue with the AI configuration. Please contact the site administrator.";
         }
       }
 
