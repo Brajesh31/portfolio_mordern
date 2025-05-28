@@ -24,13 +24,13 @@ const About = () => {
     <div className="container-section">
       <SectionHeading title="About Me" subtitle="My personal journey" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-12">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="bg-light-card dark:bg-dark-card rounded-xl p-6 md:p-8 lg:p-10 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300"
+          className="bg-light-card dark:bg-dark-card rounded-xl p-6 md:p-8 lg:p-10 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300 h-full flex flex-col justify-center"
         >
           <motion.p
             {...fadeInUp}
@@ -58,7 +58,7 @@ const About = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="flex justify-center lg:justify-end"
+          className="flex items-center justify-center lg:justify-end h-full"
         >
           <FlippingImage
             frontLight="/personal-light.jpg"
@@ -66,7 +66,7 @@ const About = () => {
             backLight="/self-light.jpg"
             backDark="/self-dark.jpg"
             alt="Brajesh Kumar"
-            className="w-72 h-72 sm:w-96 sm:h-96"
+            className="aspect-square w-full max-w-[500px] h-auto"
           />
         </motion.div>
       </div>
