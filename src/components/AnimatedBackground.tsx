@@ -31,7 +31,10 @@ const generateShape = (width: number, height: number, minSize: number, maxSize: 
     'bg-gradient-to-tr from-blue-500/30 via-cyan-500/20 to-teal-500/30',
     'bg-gradient-to-bl from-violet-500/30 via-purple-500/20 to-fuchsia-500/30',
     'bg-gradient-to-r from-emerald-500/30 via-green-500/20 to-lime-500/30',
-    'bg-gradient-to-tl from-amber-500/30 via-orange-500/20 to-yellow-500/30'
+    'bg-gradient-to-tl from-amber-500/30 via-orange-500/20 to-yellow-500/30',
+    'bg-gradient-to-tr from-pink-400/30 to-purple-500/30',
+    'bg-gradient-to-br from-yellow-400/30 to-pink-500/30',
+    'bg-gradient-to-tr from-blue-400/30 to-cyan-500/30'
   ];
 
   return {
