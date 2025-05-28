@@ -42,7 +42,7 @@ const SkillBall = ({ skill, index }) => {
           ease: "easeInOut",
           delay: index * 0.2,
         }}
-        className={`w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center text-2xl md:text-3xl
+        className={`w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full flex items-center justify-center text-2xl md:text-3xl
           shadow-lg transform-gpu perspective-1000 cursor-pointer
           ${theme === 'dark' 
             ? 'bg-dark-card hover:bg-dark-bg' 
@@ -65,8 +65,8 @@ const SkillBall = ({ skill, index }) => {
 };
 
 const FeaturedSection = ({ title, viewAllLink, children }) => (
-  <div className="py-6 md:py-8 max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
-    <div className="flex justify-between items-center mb-4 md:mb-6">
+  <div className="py-4 md:py-6 max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
+    <div className="flex justify-between items-center mb-4">
       <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
       <Link
         to={viewAllLink}
@@ -94,7 +94,7 @@ const CertificateCard = ({ certificate }) => {
         className="h-40 md:h-48 bg-cover bg-center"
         style={{ backgroundImage: `url(${certificate.image})` }}
       />
-      <div className="p-4 md:p-6">
+      <div className="p-4">
         <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 dark:text-white">
           {certificate.title}
         </h3>
@@ -123,7 +123,7 @@ const ProjectCard = ({ project }) => {
         className="h-40 md:h-48 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
         style={{ backgroundImage: `url(${project.image})` }}
       />
-      <div className="p-4 md:p-6">
+      <div className="p-4">
         <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-400 transition-colors">
           {project.title}
         </h3>
@@ -160,16 +160,15 @@ function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="container-section min-h-[90vh] flex flex-col justify-center pt-16 md:pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+      <div className="container-section min-h-[85vh] flex flex-col justify-center pt-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex justify-center lg:justify-end order-1 lg:order-none"
           >
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
+            <div className="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[450px] lg:h-[450px]">
               <motion.div 
                 initial={{ rotate: 0 }}
                 animate={{ rotate: 360 }}
@@ -207,7 +206,7 @@ function HomePage() {
               {personalInfo.title}
             </h2>
             
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-6">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
               <Link
                 to="/contact"
                 className="btn btn-primary flex items-center gap-2"
@@ -235,45 +234,39 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Featured Skills Section */}
       <FeaturedSection title="Featured Skills" viewAllLink="/skills">
-        <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8">
           {featuredSkills.map((skill, index) => (
             <SkillBall key={skill.name} skill={skill} index={index} />
           ))}
         </div>
       </FeaturedSection>
 
-      {/* Featured Projects Section */}
       <FeaturedSection title="Featured Projects" viewAllLink="/projects">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </FeaturedSection>
 
-      {/* Featured Certificates Section */}
       <FeaturedSection title="Featured Certificates" viewAllLink="/certificates">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {featuredCertificates.map((certificate) => (
             <CertificateCard key={certificate.id} certificate={certificate} />
           ))}
         </div>
       </FeaturedSection>
 
-      {/* Education Section */}
-      <div className="mt-4 md:mt-6">
+      <div className="mt-2">
         <Education />
       </div>
 
-      {/* Experience Section */}
-      <div className="mt-4 md:mt-6">
+      <div className="mt-2">
         <Experience />
       </div>
 
-      {/* Contact Section */}
-      <div className="mt-4 md:mt-6">
+      <div className="mt-2">
         <Contact />
       </div>
     </div>
