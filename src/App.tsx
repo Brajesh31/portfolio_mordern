@@ -25,8 +25,8 @@ function App() {
         <div className="relative min-h-screen flex flex-col transition-colors duration-300 dark:bg-dark-bg bg-light-bg text-gray-900 dark:text-white">
           <AnimatedBackground 
             count={6}
-            minSize={200}
-            maxSize={500}
+            minSize={300}
+            maxSize={600}
           />
           
           <Navbar />
