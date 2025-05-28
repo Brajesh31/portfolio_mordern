@@ -73,11 +73,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
-      const prompt = `User: ${input}\nAssistant: Let me help you with that.`;
-
       const result = await hf.textGeneration({
-        model: 'microsoft/phi-2',
-        inputs: prompt,
+        model: 'google/flan-t5-xxl',
+        inputs: input,
         parameters: {
           max_new_tokens: 256,
           temperature: 0.7,
@@ -88,7 +86,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       }, {
         signal: abortControllerRef.current.signal,
       });
-
+      
       const botMessage = {
         text: result.generated_text?.trim() || 
           "I apologize, but I couldn't process that request.",
