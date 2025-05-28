@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './components/ThemeProvider';
+import { AnimatedBackground } from './components/AnimatedBackground';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { ScrollToTop } from './components/common/ScrollToTop';
@@ -23,6 +24,7 @@ function App() {
     <ThemeProvider>
       <Router>
         <div className="relative min-h-screen flex flex-col transition-colors duration-300 dark:bg-dark-bg bg-light-bg text-gray-900 dark:text-white">
+          <AnimatedBackground />
           <BackgroundShapes 
             count={12}
             colors={[
