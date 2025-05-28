@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, ExternalLink } from 'lucide-react';
+import { ChevronRight, ExternalLink, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { personalInfo } from '../data/personal';
 import { projects } from '../data/projects';
@@ -155,6 +155,15 @@ function HomePage() {
   const featuredProjects = projects.filter(project => project.featured).slice(0, 3);
   const featuredCertificates = certificates.filter(cert => cert.featured).slice(0, 3);
 
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'brajesh_kumar_resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -216,6 +225,12 @@ function HomePage() {
               >
                 View Projects <ChevronRight size={16} />
               </Link>
+              <button
+                onClick={handleDownloadResume}
+                className="btn btn-outline flex items-center gap-2"
+              >
+                Download Resume <Download size={16} />
+              </button>
             </div>
             
             <p className="text-gray-600 dark:text-gray-400 text-lg">
