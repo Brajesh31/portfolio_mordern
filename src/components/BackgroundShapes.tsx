@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useAnimation, useMotionValue } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 
 type ShapeType = 'circle' | 'square' | 'hexagon';
@@ -59,8 +59,6 @@ const ShapeComponent: React.FC<{
   attractionStrength: number;
 }> = ({ shape, mouseX, mouseY, attractionRadius, attractionStrength }) => {
   const controls = useAnimation();
-  const x = useMotionValue(shape.x);
-  const y = useMotionValue(shape.y);
 
   useEffect(() => {
     const updatePosition = () => {
@@ -77,14 +75,26 @@ const ShapeComponent: React.FC<{
           x: targetX,
           y: targetY,
           scale: 1.1,
-          transition: { type: "spring", stiffness: 50, damping: 10 }
+          rotate: shape.rotation + 180,
+          transition: { 
+            type: "spring", 
+            stiffness: 50, 
+            damping: 10,
+            duration: 0.8 
+          }
         });
       } else {
         controls.start({
           x: shape.initialX,
           y: shape.initialY,
           scale: 1,
-          transition: { type: "spring", stiffness: 50, damping: 10 }
+          rotate: shape.rotation,
+          transition: { 
+            type: "spring", 
+            stiffness: 50, 
+            damping: 10,
+            duration: 0.8 
+          }
         });
       }
     };
@@ -92,56 +102,33 @@ const ShapeComponent: React.FC<{
     updatePosition();
   }, [mouseX, mouseY, shape, controls, attractionRadius, attractionStrength]);
 
-  const getShapePath = () => {
-    if (shape.type === 'hexagon') {
-      const a = shape.size / 2;
-      const points = [];
-      for (let i = 0; i < 6; i++) {
-        const angle = (i * Math.PI) / 3;
-        points.push(`${a + a * Math.cos(angle)},${a + a * Math.sin(angle)}`);
-      }
-      return `polygon(${points.join(' ')})`;
-    }
-    return undefined;
-  };
-
   return (
     <motion.div
       animate={controls}
-      style={{ 
-        x, 
-        y,
+      initial={{ 
+        x: shape.initialX,
+        y: shape.initialY,
+        scale: 0,
+        rotate: shape.rotation 
+      }}
+      style={{
         position: 'absolute',
+        width: shape.size,
+        height: shape.size,
+        backgroundColor: shape.color,
+        borderRadius: shape.type === 'circle' ? '50%' : shape.type === 'square' ? '8px' : '0',
+        filter: 'blur(8px)',
         pointerEvents: 'auto',
         cursor: 'pointer',
-        willChange: 'transform'
+        willChange: 'transform',
+        backfaceVisibility: 'hidden'
       }}
-      whileHover={{ scale: 1.2 }}
+      whileHover={{ 
+        scale: 1.2,
+        transition: { duration: 0.3 }
+      }}
       className="transition-all duration-300"
-    >
-      <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{
-          scale: 1,
-          opacity: 1,
-          rotate: [shape.rotation, shape.rotation + 360],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        style={{
-          width: shape.size,
-          height: shape.size,
-          backgroundColor: shape.color,
-          borderRadius: shape.type === 'circle' ? '50%' : shape.type === 'square' ? '4px' : '0',
-          clipPath: shape.type === 'hexagon' ? getShapePath() : undefined,
-          filter: 'blur(8px)',
-          backfaceVisibility: 'hidden',
-        }}
-      />
-    </motion.div>
+    />
   );
 };
 
@@ -157,8 +144,8 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   ],
   minSize = 32,
   maxSize = 80,
-  attractionRadius = 150,
-  attractionStrength = 0.15
+  attractionRadius = 200,
+  attractionStrength = 0.2
 }) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
