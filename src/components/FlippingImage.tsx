@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 
 interface FlippingImageProps {
@@ -19,33 +19,24 @@ const FlippingImage: React.FC<FlippingImageProps> = ({
   alt,
   className = ''
 }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
   const { theme } = useTheme();
-
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-  };
 
   return (
     <div 
-      className={`perspective-1000 cursor-pointer ${className}`}
-      onClick={handleFlip}
-      onKeyPress={(e) => e.key === 'Enter' && handleFlip()}
-      role="button"
-      tabIndex={0}
-      aria-label="Flip image"
+      className={`perspective-1000 ${className}`}
+      role="img"
+      aria-label={alt}
     >
       <motion.div
         initial={false}
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        whileHover={{ rotateY: 180 }}
         transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
         className="preserve-3d relative w-full h-full"
       >
         {/* Front */}
         <motion.div
-          className={`absolute inset-0 backface-hidden rounded-full overflow-hidden
-            shadow-lg hover:shadow-xl transition-shadow duration-300
-            ${isFlipped ? 'pointer-events-none' : ''}`}
+          className="absolute inset-0 backface-hidden rounded-full overflow-hidden
+            shadow-lg hover:shadow-xl transition-shadow duration-300"
         >
           <img
             src={theme === 'dark' ? frontDark : frontLight}
@@ -56,9 +47,8 @@ const FlippingImage: React.FC<FlippingImageProps> = ({
 
         {/* Back */}
         <motion.div
-          className={`absolute inset-0 backface-hidden rounded-full overflow-hidden
-            shadow-lg hover:shadow-xl transition-shadow duration-300
-            ${!isFlipped ? 'pointer-events-none' : ''}`}
+          className="absolute inset-0 backface-hidden rounded-full overflow-hidden
+            shadow-lg hover:shadow-xl transition-shadow duration-300"
           style={{ transform: 'rotateY(180deg)' }}
         >
           <img
@@ -72,4 +62,4 @@ const FlippingImage: React.FC<FlippingImageProps> = ({
   );
 };
 
-export default FlippingImage
+export default FlippingImage;
