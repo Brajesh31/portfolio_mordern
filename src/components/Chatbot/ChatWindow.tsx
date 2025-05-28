@@ -48,6 +48,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     setIsLoading(true);
 
     try {
+      if (!import.meta.env.VITE_HUGGINGFACE_API_KEY) {
+        throw new Error('API key not found');
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
       const response = await fetch('https://api-inference.huggingface.co/models/google/flan-t5-xxl', {
         method: 'POST',
         headers: {
@@ -55,7 +62,16 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ inputs: input }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error:', response.status, errorText);
+        throw new Error(`API error: ${response.status}`);
+      }
 
       const result = await response.json();
       
@@ -68,8 +84,18 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error('Error:', error);
+      let errorMessage = "I apologize, but I'm having trouble connecting right now. Please try again later.";
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = "The request took too long to complete. Please try again.";
+        } else if (error.message === 'API key not found') {
+          errorMessage = "I'm not properly configured yet. Please check the API key setup.";
+        }
+      }
+
       setMessages(prev => [...prev, {
-        text: "I apologize, but I'm having trouble connecting right now. Please try again later.",
+        text: errorMessage,
         isBot: true,
         timestamp: new Date(),
       }]);
