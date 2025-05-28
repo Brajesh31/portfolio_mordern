@@ -76,12 +76,14 @@ const ShapeComponent: React.FC<{
         controls.start({
           x: targetX,
           y: targetY,
+          scale: 1.1,
           transition: { type: "spring", stiffness: 50, damping: 10 }
         });
       } else {
         controls.start({
           x: shape.initialX,
           y: shape.initialY,
+          scale: 1,
           transition: { type: "spring", stiffness: 50, damping: 10 }
         });
       }
@@ -106,8 +108,16 @@ const ShapeComponent: React.FC<{
   return (
     <motion.div
       animate={controls}
-      style={{ x, y }}
-      className="absolute"
+      style={{ 
+        x, 
+        y,
+        position: 'absolute',
+        pointerEvents: 'auto',
+        cursor: 'pointer',
+        willChange: 'transform'
+      }}
+      whileHover={{ scale: 1.2 }}
+      className="transition-all duration-300"
     >
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
@@ -127,6 +137,8 @@ const ShapeComponent: React.FC<{
           backgroundColor: shape.color,
           borderRadius: shape.type === 'circle' ? '50%' : shape.type === 'square' ? '4px' : '0',
           clipPath: shape.type === 'hexagon' ? getShapePath() : undefined,
+          filter: 'blur(8px)',
+          backfaceVisibility: 'hidden',
         }}
       />
     </motion.div>
@@ -140,7 +152,7 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
     'rgba(99, 102, 241, 0.08)', // Indigo
     'rgba(139, 92, 246, 0.08)', // Purple
     'rgba(236, 72, 153, 0.08)', // Pink
-    'rgba(239, 68, 68, 0.08)', // Red
+    'rgba(239, 68, 68, 0.08)',  // Red
     'rgba(16, 185, 129, 0.08)', // Green
   ],
   minSize = 32,
@@ -190,11 +202,12 @@ export const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`fixed inset-0 overflow-hidden pointer-events-none transition-colors duration-300 ${
-        theme === 'dark' ? 'bg-dark-bg' : 'bg-light-bg'
-      }`}
+      className="fixed inset-0 overflow-hidden pointer-events-none"
       style={{ zIndex: -1 }}
     >
+      <div className={`absolute inset-0 transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-dark-bg/50' : 'bg-light-bg/50'
+      }`} />
       <div className="relative w-full h-full">
         {shapes.map((shape) => (
           <ShapeComponent
