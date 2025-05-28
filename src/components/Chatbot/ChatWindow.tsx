@@ -65,6 +65,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
+      // Add timeout to abort request after 30 seconds
+      const timeout = setTimeout(() => {
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
+      }, 30000);
+
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`, {
         method: 'POST',
         headers: {
@@ -75,12 +82,30 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
         signal: abortControllerRef.current.signal
       });
 
+      clearTimeout(timeout);
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to get response from AI');
+        const errorData = await response.json().catch(() => ({ error: 'Failed to get response from AI' }));
+        throw new Error(errorData.error || 'Failed to get response from AI');
       }
 
-      const data = await response.json();
+      const responseText = await response.text();
+      if (!responseText) {
+        throw new Error('Empty response from server');
+      }
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        throw new Error('Invalid response format from server');
+      }
+
+      if (!data.response?.content) {
+        throw new Error('Invalid response format from server');
+      }
+
       const botMessage = {
         text: data.response.content.trim(),
         isBot: true,
@@ -95,7 +120,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
-          errorMessage = "The request took too long. Please try a shorter message.";
+          errorMessage = "The request took too long. Please try again.";
         } else {
           errorMessage = error.message;
         }

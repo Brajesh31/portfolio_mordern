@@ -13,15 +13,34 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { input } = await req.json()
+    // Validate request body
+    const body = await req.text();
+    if (!body) {
+      throw new Error('Request body is empty');
+    }
 
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
-    )
+    const { input } = JSON.parse(body);
+    if (!input) {
+      throw new Error('Input is required');
+    }
+
+    // Validate environment variables
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY');
+    const openaiKey = Deno.env.get('OPENAI_API_KEY');
+
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error('Supabase configuration is missing');
+    }
+
+    if (!openaiKey) {
+      throw new Error('OpenAI API key is missing');
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const configuration = new Configuration({
-      apiKey: Deno.env.get('OPENAI_API_KEY'),
+      apiKey: openaiKey,
     })
 
     const openai = new OpenAIApi(configuration)
@@ -41,7 +60,11 @@ Deno.serve(async (req) => {
       temperature: 0.7,
     })
 
-    const response = completion.data.choices[0].message
+    if (!completion.data.choices?.[0]?.message) {
+      throw new Error('Invalid response from OpenAI');
+    }
+
+    const response = completion.data.choices[0].message;
 
     return new Response(
       JSON.stringify({ response }),
@@ -53,25 +76,33 @@ Deno.serve(async (req) => {
       }
     )
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Error in chat function:', error);
     
-    let statusCode = 500
-    let message = 'An internal error occurred'
+    let statusCode = 500;
+    let message = 'An internal error occurred';
 
-    if (error.response) {
-      statusCode = error.response.status
+    if (error instanceof Error) {
+      if (error.message === 'Request body is empty' || error.message === 'Input is required') {
+        statusCode = 400;
+        message = error.message;
+      } else if (error.message === 'Supabase configuration is missing' || error.message === 'OpenAI API key is missing') {
+        statusCode = 500;
+        message = 'Server configuration error';
+      }
+    }
+    
+    if ('response' in error) {
+      statusCode = error.response?.status || 500;
       switch (statusCode) {
         case 401:
-          message = 'API key is invalid'
-          break
+          message = 'API key is invalid';
+          break;
         case 429:
-          message = 'Too many requests. Please try again later'
-          break
+          message = 'Too many requests. Please try again later';
+          break;
         case 500:
-          message = 'OpenAI service is currently unavailable'
-          break
-        default:
-          message = 'Failed to get response from AI'
+          message = 'OpenAI service is currently unavailable';
+          break;
       }
     }
 
