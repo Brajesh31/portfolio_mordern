@@ -1,159 +1,174 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 
 interface Shape {
   id: number;
-  x: string;
-  y: string;
+  x: number;
+  y: number;
   size: number;
   rotation: number;
   gradient: string;
-  blur: number;
-  scale: number;
+  initialX: number;
+  initialY: number;
 }
 
 interface AnimatedBackgroundProps {
   shapes?: Shape[];
-  className?: string;
+  count?: number;
+  minSize?: number;
+  maxSize?: number;
+  attractionRadius?: number;
+  attractionStrength?: number;
 }
 
-const defaultShapes: Shape[] = [
-  {
-    id: 1,
-    x: '10%',
-    y: '20%',
-    size: 300,
-    rotation: 45,
-    gradient: 'linear-gradient(45deg, rgba(255, 99, 132, 0.2), rgba(54, 162, 235, 0.2))',
-    blur: 40,
-    scale: 1,
-  },
-  {
-    id: 2,
-    x: '70%',
-    y: '15%',
-    size: 400,
-    rotation: -30,
-    gradient: 'linear-gradient(135deg, rgba(75, 192, 192, 0.2), rgba(153, 102, 255, 0.2))',
-    blur: 50,
-    scale: 1.2,
-  },
-  {
-    id: 3,
-    x: '30%',
-    y: '60%',
-    size: 350,
-    rotation: 15,
-    gradient: 'linear-gradient(225deg, rgba(255, 206, 86, 0.2), rgba(255, 159, 64, 0.2))',
-    blur: 45,
-    scale: 0.9,
-  },
-  {
-    id: 4,
-    x: '80%',
-    y: '70%',
-    size: 250,
-    rotation: 60,
-    gradient: 'linear-gradient(315deg, rgba(238, 130, 238, 0.2), rgba(64, 224, 208, 0.2))',
-    blur: 35,
-    scale: 0.8,
-  },
-];
+const generateShape = (width: number, height: number, minSize: number, maxSize: number): Shape => {
+  const size = Math.random() * (maxSize - minSize) + minSize;
+  const x = Math.random() * (width - size);
+  const y = Math.random() * (height - size);
+  
+  const gradients = [
+    'bg-gradient-to-tr from-pink-400/30 to-purple-500/30',
+    'bg-gradient-to-tr from-yellow-400/30 to-pink-500/30',
+    'bg-gradient-to-tr from-blue-400/30 to-cyan-500/30',
+    'bg-gradient-to-tr from-green-400/30 to-teal-500/30',
+    'bg-gradient-to-tr from-indigo-400/30 to-purple-500/30'
+  ];
 
-const AnimatedShape: React.FC<{ shape: Shape }> = ({ shape }) => {
+  return {
+    id: Math.random(),
+    x,
+    y,
+    size,
+    rotation: Math.random() * 360,
+    gradient: gradients[Math.floor(Math.random() * gradients.length)],
+    initialX: x,
+    initialY: y
+  };
+};
+
+const AnimatedShape: React.FC<{ shape: Shape; mouseX: number; mouseY: number }> = ({ 
+  shape, 
+  mouseX, 
+  mouseY 
+}) => {
   const controls = useAnimation();
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const { theme } = useTheme();
 
-  // Transform mouse position into rotation
-  const rotateX = useTransform(mouseY, [0, 300], [-15, 15]);
-  const rotateY = useTransform(mouseX, [0, 300], [-15, 15]);
+  useEffect(() => {
+    const dx = mouseX - shape.initialX;
+    const dy = mouseY - shape.initialY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const maxDistance = 300;
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    mouseX.set(event.clientX - rect.left);
-    mouseY.set(event.clientY - rect.top);
-  };
+    if (distance < maxDistance) {
+      const force = (1 - distance / maxDistance) * 0.3;
+      const targetX = shape.initialX + dx * force;
+      const targetY = shape.initialY + dy * force;
 
-  const handleHoverStart = () => {
-    setIsHovered(true);
-    controls.start({
-      scale: shape.scale * 1.1,
-      transition: { duration: 0.3, ease: "easeOut" },
-    });
-  };
-
-  const handleHoverEnd = () => {
-    setIsHovered(false);
-    controls.start({
-      scale: shape.scale,
-      transition: { duration: 0.5, ease: "easeOut" },
-    });
-  };
+      controls.start({
+        x: targetX,
+        y: targetY,
+        scale: 1.1,
+        rotate: shape.rotation + 180,
+        transition: { 
+          type: "spring",
+          stiffness: 50,
+          damping: 15
+        }
+      });
+    } else {
+      controls.start({
+        x: shape.initialX,
+        y: shape.initialY,
+        scale: 1,
+        rotate: shape.rotation,
+        transition: { 
+          type: "spring",
+          stiffness: 50,
+          damping: 15
+        }
+      });
+    }
+  }, [mouseX, mouseY, shape, controls]);
 
   return (
     <motion.div
+      initial={{ 
+        x: shape.initialX,
+        y: shape.initialY,
+        scale: 0,
+        opacity: 0 
+      }}
+      animate={controls}
+      whileHover={{ scale: 1.2 }}
+      className={`absolute rounded-full backdrop-blur-xl ${shape.gradient}`}
       style={{
-        position: 'absolute',
-        left: shape.x,
-        top: shape.y,
         width: shape.size,
         height: shape.size,
-        background: shape.gradient,
-        borderRadius: '50%',
-        filter: `blur(${shape.blur}px)`,
-        transform: `rotate(${shape.rotation}deg)`,
-        opacity: theme === 'dark' ? 0.15 : 0.25,
-        pointerEvents: 'auto',
+        willChange: 'transform',
+        backfaceVisibility: 'hidden',
+        filter: 'blur(8px)',
+        cursor: 'pointer'
       }}
-      initial={{ scale: 0, opacity: 0 }}
-      animate={controls}
-      whileHover={{ scale: shape.scale * 1.1 }}
-      onMouseMove={handleMouseMove}
-      onHoverStart={handleHoverStart}
-      onHoverEnd={handleHoverEnd}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-      }}
-    >
-      <motion.div
-        style={{
-          width: '100%',
-          height: '100%',
-          rotateX: isHovered ? rotateX : 0,
-          rotateY: isHovered ? rotateY : 0,
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      />
-    </motion.div>
+    />
   );
 };
 
 export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
-  shapes = defaultShapes,
-  className = '',
+  count = 5,
+  minSize = 100,
+  maxSize = 300
 }) => {
-  const [mounted, setMounted] = useState(false);
+  const [shapes, setShapes] = useState<Shape[]>([]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
-    setMounted(true);
+    if (containerRef.current) {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const newShapes = Array.from({ length: count }, () =>
+        generateShape(width, height, minSize, maxSize)
+      );
+      setShapes(newShapes);
+    }
+  }, [count, minSize, maxSize]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  if (!mounted) return null;
-
   return (
-    <div
-      className={`fixed inset-0 overflow-hidden pointer-events-none ${className}`}
+    <div 
+      ref={containerRef}
+      className="fixed inset-0 overflow-hidden pointer-events-none"
       style={{ zIndex: -1 }}
     >
+      <div 
+        className={`absolute inset-0 transition-colors duration-300 ${
+          theme === 'dark' ? 'bg-dark-bg/50' : 'bg-light-bg/50'
+        }`}
+      />
       <div className="relative w-full h-full">
         {shapes.map((shape) => (
-          <AnimatedShape key={shape.id} shape={shape} />
+          <AnimatedShape
+            key={shape.id}
+            shape={shape}
+            mouseX={mousePosition.x}
+            mouseY={mousePosition.y}
+          />
         ))}
       </div>
     </div>
