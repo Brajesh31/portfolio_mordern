@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, X, Paperclip } from 'lucide-react';
-import { HfInference } from '@huggingface/inference';
 import ChatMessage from './ChatMessage';
 
 interface Message {
@@ -58,13 +57,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      if (!import.meta.env.VITE_HUGGINGFACE_API_KEY) {
-        throw new Error('API key not found');
-      }
-
-      // Initialize Hugging Face client
-      const hf = new HfInference(import.meta.env.VITE_HUGGINGFACE_API_KEY);
-
       // Cancel any existing request
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -73,23 +65,37 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
-      const result = await hf.textGeneration({
-        model: 'google/flan-t5-xxl',
-        inputs: input,
-        parameters: {
-          max_new_tokens: 256,
-          temperature: 0.7,
-          top_p: 0.95,
-          repetition_penalty: 1.15,
-          do_sample: true,
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+          'HTTP-Referer': import.meta.env.VITE_SITE_URL,
+          'X-Title': 'Portfolio AI Chatbot'
         },
-      }, {
-        signal: abortControllerRef.current.signal,
+        body: JSON.stringify({
+          model: 'openchat/openchat-3.5-0106:free',
+          messages: [
+            {
+              role: 'system',
+              content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
+            },
+            {
+              role: 'user',
+              content: input
+            }
+          ]
+        }),
+        signal: abortControllerRef.current.signal
       });
-      
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from AI');
+      }
+
+      const data = await response.json();
       const botMessage = {
-        text: result.generated_text?.trim() || 
-          "I apologize, but I couldn't process that request.",
+        text: data.choices[0].message.content.trim(),
         isBot: true,
         timestamp: new Date(),
       };
@@ -102,10 +108,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = "The request took too long to complete. Please try again with a shorter message.";
-        } else if (error.message === 'API key not found') {
-          errorMessage = "I'm not properly configured yet. Please check the API key setup.";
-        } else if (error.message.includes('401')) {
-          errorMessage = "There seems to be an issue with the API authentication. Please check your API key.";
         }
       }
 
@@ -196,7 +198,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
           </button>
         </div>
         <div className="text-xs text-center text-gray-500 mt-2">
-          Powered by Hugging Face
+          Powered by OpenRouter AI
         </div>
       </form>
     </div>
