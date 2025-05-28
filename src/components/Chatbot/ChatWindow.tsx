@@ -55,19 +55,17 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
-      const response = await fetch('https://api-inference.huggingface.co/models/gpt2', {
+      const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${import.meta.env.VITE_HUGGINGFACE_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          inputs: input,
-          parameters: {
-            max_length: 100,
-            temperature: 0.7,
-            top_p: 0.9,
-            return_full_text: false
+          inputs: {
+            text: input,
+            past_user_inputs: messages.filter(m => !m.isBot).map(m => m.text).slice(-5),
+            generated_responses: messages.filter(m => m.isBot).map(m => m.text).slice(-5)
           }
         }),
         signal: controller.signal,
@@ -84,9 +82,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       const result = await response.json();
       
       const botMessage = {
-        text: Array.isArray(result) && result[0]?.generated_text 
-          ? result[0].generated_text.trim()
-          : "I apologize, but I couldn't process that request.",
+        text: result.generated_text || "I apologize, but I couldn't process that request.",
         isBot: true,
         timestamp: new Date(),
       };
