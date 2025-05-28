@@ -14,12 +14,9 @@ interface Shape {
 }
 
 interface AnimatedBackgroundProps {
-  shapes?: Shape[];
   count?: number;
   minSize?: number;
   maxSize?: number;
-  attractionRadius?: number;
-  attractionStrength?: number;
 }
 
 const generateShape = (width: number, height: number, minSize: number, maxSize: number): Shape => {
@@ -28,11 +25,11 @@ const generateShape = (width: number, height: number, minSize: number, maxSize: 
   const y = Math.random() * (height - size);
   
   const gradients = [
-    'bg-gradient-to-tr from-pink-400/30 to-purple-500/30',
-    'bg-gradient-to-tr from-yellow-400/30 to-pink-500/30',
-    'bg-gradient-to-tr from-blue-400/30 to-cyan-500/30',
-    'bg-gradient-to-tr from-green-400/30 to-teal-500/30',
-    'bg-gradient-to-tr from-indigo-400/30 to-purple-500/30'
+    'bg-gradient-to-tr from-pink-500/20 via-purple-500/20 to-cyan-500/20',
+    'bg-gradient-to-bl from-blue-500/20 via-purple-500/20 to-pink-500/20',
+    'bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20',
+    'bg-gradient-to-tr from-green-500/20 via-emerald-500/20 to-teal-500/20',
+    'bg-gradient-to-bl from-orange-500/20 via-amber-500/20 to-yellow-500/20'
   ];
 
   return {
@@ -53,26 +50,27 @@ const AnimatedShape: React.FC<{ shape: Shape; mouseX: number; mouseY: number }> 
   mouseY 
 }) => {
   const controls = useAnimation();
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const dx = mouseX - shape.initialX;
     const dy = mouseY - shape.initialY;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    const maxDistance = 300;
+    const maxDistance = 400;
 
     if (distance < maxDistance) {
-      const force = (1 - distance / maxDistance) * 0.3;
+      const force = (1 - distance / maxDistance) * 0.4;
       const targetX = shape.initialX + dx * force;
       const targetY = shape.initialY + dy * force;
 
       controls.start({
         x: targetX,
         y: targetY,
-        scale: 1.1,
+        scale: isHovered ? 1.2 : 1.1,
         rotate: shape.rotation + 180,
         transition: { 
           type: "spring",
-          stiffness: 50,
+          stiffness: 40,
           damping: 15
         }
       });
@@ -80,16 +78,16 @@ const AnimatedShape: React.FC<{ shape: Shape; mouseX: number; mouseY: number }> 
       controls.start({
         x: shape.initialX,
         y: shape.initialY,
-        scale: 1,
+        scale: isHovered ? 1.2 : 1,
         rotate: shape.rotation,
         transition: { 
           type: "spring",
-          stiffness: 50,
+          stiffness: 40,
           damping: 15
         }
       });
     }
-  }, [mouseX, mouseY, shape, controls]);
+  }, [mouseX, mouseY, shape, controls, isHovered]);
 
   return (
     <motion.div
@@ -97,18 +95,21 @@ const AnimatedShape: React.FC<{ shape: Shape; mouseX: number; mouseY: number }> 
         x: shape.initialX,
         y: shape.initialY,
         scale: 0,
-        opacity: 0 
+        opacity: 0,
+        rotate: shape.rotation
       }}
       animate={controls}
-      whileHover={{ scale: 1.2 }}
-      className={`absolute rounded-full backdrop-blur-xl ${shape.gradient}`}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className={`absolute rounded-full backdrop-blur-3xl ${shape.gradient}`}
       style={{
         width: shape.size,
         height: shape.size,
         willChange: 'transform',
         backfaceVisibility: 'hidden',
-        filter: 'blur(8px)',
-        cursor: 'pointer'
+        filter: 'blur(40px)',
+        cursor: 'pointer',
+        pointerEvents: 'auto'
       }}
     />
   );
@@ -116,8 +117,8 @@ const AnimatedShape: React.FC<{ shape: Shape; mouseX: number; mouseY: number }> 
 
 export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
   count = 5,
-  minSize = 100,
-  maxSize = 300
+  minSize = 200,
+  maxSize = 500
 }) => {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -125,14 +126,22 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
   const { theme } = useTheme();
 
   useEffect(() => {
-    if (containerRef.current) {
+    const generateShapes = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const newShapes = Array.from({ length: count }, () =>
+      return Array.from({ length: count }, () =>
         generateShape(width, height, minSize, maxSize)
       );
-      setShapes(newShapes);
-    }
+    };
+
+    setShapes(generateShapes());
+
+    const handleResize = () => {
+      setShapes(generateShapes());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [count, minSize, maxSize]);
 
   useEffect(() => {
@@ -158,7 +167,7 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
     >
       <div 
         className={`absolute inset-0 transition-colors duration-300 ${
-          theme === 'dark' ? 'bg-dark-bg/50' : 'bg-light-bg/50'
+          theme === 'dark' ? 'bg-dark-bg/90' : 'bg-light-bg/90'
         }`}
       />
       <div className="relative w-full h-full">

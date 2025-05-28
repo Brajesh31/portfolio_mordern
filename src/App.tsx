@@ -24,9 +24,9 @@ function App() {
       <Router>
         <div className="relative min-h-screen flex flex-col transition-colors duration-300 dark:bg-dark-bg bg-light-bg text-gray-900 dark:text-white">
           <AnimatedBackground 
-            count={5}
-            minSize={150}
-            maxSize={400}
+            count={6}
+            minSize={200}
+            maxSize={500}
           />
           
           <Navbar />
