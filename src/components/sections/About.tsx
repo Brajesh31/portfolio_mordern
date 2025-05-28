@@ -1,116 +1,125 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '../ThemeProvider';
 import SectionHeading from '../common/SectionHeading';
 
 const About = () => {
-  const [isFlipped, setIsFlipped] = useState(false);
-  const { theme } = useTheme();
+  const frontendSkills = [
+    'HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React.js',
+    'Angular', 'Vue.js', 'Next.js', 'Bootstrap', 'Tailwind CSS', 'Pug/Jade',
+  ];
+
+  const backendSkills = [
+    'Node.js', 'Express.js', 'Python', 'Django', 'Flask',
+    'Ruby on Rails', 'Java', 'C#', '.NET', 'MongoDB', 'MySQL', 'PostgresSQL',
+  ];
+
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+  };
 
   return (
     <div className="container-section">
-      <SectionHeading 
-        title="About Me" 
-        subtitle="My journey in technology and design"
-      />
+      <SectionHeading title="About Me" subtitle="My personal journey" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
-        {/* Vertical Line */}
-        <div className="absolute left-1/2 lg:right-1/2 top-0 bottom-0 w-px hidden lg:block">
-          <div className="h-[30%] bg-gradient-to-b from-transparent via-primary-500/50 to-primary-500/50" />
-          <div className="h-[40%] bg-transparent" />
-          <div className="h-[30%] bg-gradient-to-t from-transparent via-primary-500/50 to-primary-500/50" />
-        </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="bg-light-card dark:bg-dark-card rounded-xl p-6 md:p-8 lg:p-10 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300"
+      >
+        <motion.p
+          {...fadeInUp}
+          className="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 space-y-4"
+        >
+          I'm <strong>Brajesh Kumar</strong>, a passionate and adaptable
+          Computer Science and Engineering student at GL Bajaj Group of
+          Institutions (Batch 2023–2027). With a strong foundation in full-stack
+          development, machine learning, and AI-based systems, I thrive on
+          building real-world tech solutions that are not only innovative but
+          impactful.
+          <br />
+          <br />
+          I bring a hands-on approach to problem-solving, demonstrated through my
+          wide array of projects ranging from intelligent personal assistants
+          like <em>Emma</em>, AI-powered therapy bots like <em>Thea</em>, to
+          full-fledged web platforms like <em>SEMAC</em> and <em>IdeaPool</em>.
+          I've also contributed to game development and ed-tech innovations,
+          combining creativity with code.
+          <br />
+          <br />
+          My toolkit includes a wide stack of technologies: MERN, Python, Django,
+          Flutter, React Native, TensorFlow, GANs, and cloud tools like AWS. I'm
+          constantly learning, experimenting, and pushing boundaries.
+          <br />
+          <br />
+          I've interned with over 10 companies, gaining real-world exposure in
+          Python development, web design, and AI systems. I hold over 100+
+          certifications from platforms like IBM, Coursera, Forage, Google
+          Cloud, Cisco, and more, and I actively participate in hackathons,
+          CTFs, and coding contests (3★ CodeChef, 5★ HackerRank in Python).
+          <br />
+          <br />
+          Beyond code, I'm a team player, quick learner, and a creative thinker
+          — always excited to collaborate and bring new ideas to life.
+        </motion.p>
+      </motion.div>
 
-        {/* About Text */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        {/* Frontend Skills */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="prose prose-lg dark:prose-invert max-w-none lg:pr-16"
+          className="bg-light-card dark:bg-dark-card rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300"
         >
-          <p className="text-lg leading-relaxed mb-6">
-            I'm <span className="text-primary-500 font-semibold">Brajesh Kumar</span>, 
-            a passionate and adaptable Computer Science and Engineering student at GL Bajaj 
-            Group of Institutions (Batch 2023–2027). With a strong foundation in full-stack 
-            development, machine learning, and AI-based systems, I thrive on building 
-            real-world tech solutions that are not only innovative but impactful.
-          </p>
-          <p className="text-lg leading-relaxed mb-6">
-            I bring a hands-on approach to problem-solving, demonstrated through my wide 
-            array of projects ranging from intelligent personal assistants like Emma, 
-            AI-powered therapy bots like Thea, to full-fledged web platforms like SEMAC 
-            and IdeaPool. I've also contributed to game development and ed-tech innovations, 
-            combining creativity with code.
-          </p>
-          <p className="text-lg leading-relaxed">
-            Beyond code, I'm a team player, quick learner, and a creative thinker — always 
-            excited to collaborate and bring new ideas to life.
-          </p>
+          <h3 className="text-xl font-semibold mb-6 text-primary-400">
+            Front-End
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {frontendSkills.map((skill, index) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="skill-tag"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </div>
         </motion.div>
 
-        {/* Profile Image */}
+        {/* Backend Skills */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="relative w-full max-w-md mx-auto lg:ml-16"
+          className="bg-light-card dark:bg-dark-card rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300"
         >
-          <div 
-            className="relative w-full pt-[100%] perspective-1000 cursor-pointer"
-            onClick={() => setIsFlipped(!isFlipped)}
-          >
-            <motion.div
-              animate={{ rotateY: isFlipped ? 180 : 0 }}
-              transition={{ duration: 0.6 }}
-              className="absolute inset-0 preserve-3d"
-            >
-              {/* Front Image */}
-              <motion.div
-                className="absolute inset-0 backface-hidden"
-                initial={false}
-                animate={{ opacity: isFlipped ? 0 : 1 }}
-                transition={{ duration: 0.3 }}
+          <h3 className="text-xl font-semibold mb-6 text-primary-400">
+            Back-End
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {backendSkills.map((skill, index) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="skill-tag"
               >
-                <img
-                  src={theme === 'dark' ? '/personal-dark.jpg' : '/personal-light.jpg'}
-                  alt="Brajesh Kumar - Front"
-                  className="w-full h-full object-cover rounded-2xl shadow-xl"
-                />
-              </motion.div>
-
-              {/* Back Image */}
-              <motion.div
-                className="absolute inset-0 backface-hidden"
-                style={{ transform: 'rotateY(180deg)' }}
-                initial={false}
-                animate={{ opacity: isFlipped ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src={theme === 'dark' ? '/self-dark.jpg' : '/self-light.jpg'}
-                  alt="Brajesh Kumar - Back"
-                  className="w-full h-full object-cover rounded-2xl shadow-xl"
-                />
-              </motion.div>
-
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-primary-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-            </motion.div>
+                {skill}
+              </motion.span>
+            ))}
           </div>
-
-          {/* Image Caption */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm text-gray-500 dark:text-gray-400"
-          >
-            Click to flip
-          </motion.div>
         </motion.div>
       </div>
     </div>
