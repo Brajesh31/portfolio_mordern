@@ -65,36 +65,24 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [
-            {
-              role: 'system',
-              content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
-            },
-            {
-              role: 'user',
-              content: input
-            }
-          ],
-          temperature: 0.7
-        }),
+        body: JSON.stringify({ input }),
         signal: abortControllerRef.current.signal
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response from AI');
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to get response from AI');
       }
 
       const data = await response.json();
       const botMessage = {
-        text: data.choices[0].message.content.trim(),
+        text: data.response.content.trim(),
         isBot: true,
         timestamp: new Date(),
       };
@@ -108,6 +96,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = "The request took too long. Please try a shorter message.";
+        } else {
+          errorMessage = error.message;
         }
       }
 
