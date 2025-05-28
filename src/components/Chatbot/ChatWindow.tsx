@@ -1,0 +1,164 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Send, X, Paperclip } from 'lucide-react';
+import ChatMessage from './ChatMessage';
+
+interface Message {
+  text: string;
+  isBot: boolean;
+  timestamp: Date;
+}
+
+interface ChatWindowProps {
+  onClose: () => void;
+}
+
+const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      text: "Hi! I'm Brajesh's AI assistant. How can I help you today?",
+      isBot: true,
+      timestamp: new Date(),
+    },
+  ]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = {
+      text: input,
+      isBot: false,
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('https://api-inference.huggingface.co/models/google/flan-t5-xxl', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_HUGGINGFACE_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ inputs: input }),
+      });
+
+      const result = await response.json();
+      
+      const botMessage = {
+        text: Array.isArray(result) ? result[0].generated_text : "I apologize, but I couldn't process that request.",
+        isBot: true,
+        timestamp: new Date(),
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error:', error);
+      setMessages(prev => [...prev, {
+        text: "I apologize, but I'm having trouble connecting right now. Please try again later.",
+        isBot: true,
+        timestamp: new Date(),
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFileClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setMessages(prev => [...prev, {
+        text: `Attached file: ${file.name}`,
+        isBot: false,
+        timestamp: new Date(),
+      }]);
+    }
+  };
+
+  return (
+    <div className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-2rem)] h-[600px] max-h-[80vh] 
+      bg-light-card dark:bg-dark-card rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 
+      flex flex-col overflow-hidden z-50">
+      {/* Header */}
+      <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+        <h3 className="font-semibold">Chat with AI Assistant</h3>
+        <button
+          onClick={onClose}
+          className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.map((msg, idx) => (
+          <ChatMessage
+            key={idx}
+            message={msg.text}
+            isBot={msg.isBot}
+            timestamp={msg.timestamp}
+          />
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input */}
+      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-800">
+        <div className="flex items-center gap-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={handleFileClick}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+          >
+            <Paperclip size={20} />
+          </button>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-full px-4 py-2 focus:outline-none"
+            disabled={isLoading}
+          />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="p-2 bg-primary-500 hover:bg-primary-600 text-white rounded-full transition-colors disabled:opacity-50"
+          >
+            <Send size={20} />
+          </button>
+        </div>
+        <div className="text-xs text-center text-gray-500 mt-2">
+          Powered by Hugging Face
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default ChatWindow;

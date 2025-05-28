@@ -7,6 +7,7 @@ import { ScrollToTop } from './components/common/ScrollToTop';
 import { Loader } from './components/common/Loader';
 import { BackgroundShapes } from './components/BackgroundShapes';
 import SocialSidebar from './components/SocialSidebar';
+import ChatbotButton from './components/Chatbot/ChatbotButton';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EducationPage from './pages/EducationPage';
@@ -36,6 +37,7 @@ function App() {
           
           <Navbar />
           <SocialSidebar />
+          <ChatbotButton />
           
           <main className="relative z-10 flex-grow">
             <Routes>
