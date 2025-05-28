@@ -1,6 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.39.3'
 import { Configuration, OpenAIApi } from 'npm:openai@4.24.1'
-import config from '../../../src/data/chatbot.json' assert { type: "json" }
+import config from '../../../src/data/chatbot.json\' assert { type: "json" }
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
