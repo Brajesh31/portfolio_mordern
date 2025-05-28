@@ -73,19 +73,25 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
+      const prompt = `<s>[INST] ${input} [/INST]`;
+      
       const result = await hf.textGeneration({
-        model: 'facebook/blenderbot-400M-distill',
-        inputs: input,
+        model: 'meta-llama/Llama-2-7b-chat-hf',
+        inputs: prompt,
         parameters: {
-          max_length: 100,
+          max_new_tokens: 200,
           temperature: 0.7,
+          top_p: 0.95,
+          repetition_penalty: 1.15,
+          do_sample: true,
         },
       }, {
         signal: abortControllerRef.current.signal,
       });
 
       const botMessage = {
-        text: result.generated_text || "I apologize, but I couldn't process that request.",
+        text: result.generated_text?.replace(prompt, '').trim() || 
+          "I apologize, but I couldn't process that request.",
         isBot: true,
         timestamp: new Date(),
       };
