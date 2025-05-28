@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, X, Paperclip } from 'lucide-react';
 import ChatMessage from './ChatMessage';
+import config from '../../data/chatbot.json';
 
 interface Message {
   text: string;
@@ -15,7 +16,7 @@ interface ChatWindowProps {
 const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "Hi! I'm Brajesh's AI assistant. How can I help you today?",
+      text: config.responses.greeting,
       isBot: true,
       timestamp: new Date(),
     },
@@ -85,8 +86,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       clearTimeout(timeout);
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Failed to get response from AI' }));
-        throw new Error(errorData.error || 'Failed to get response from AI');
+        const errorData = await response.json().catch(() => ({ error: config.responses.error }));
+        throw new Error(errorData.error || config.responses.error);
       }
 
       const responseText = await response.text();
@@ -116,11 +117,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     } catch (error) {
       console.error('Chat error:', error);
       
-      let errorMessage = "I apologize, but I'm having trouble connecting right now. Please try again later.";
+      let errorMessage = config.responses.error;
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
-          errorMessage = "The request took too long. Please try again.";
+          errorMessage = config.responses.timeout;
         } else {
           errorMessage = error.message;
         }
@@ -158,7 +159,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       flex flex-col overflow-hidden z-50">
       {/* Header */}
       <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
-        <h3 className="font-semibold">Chat with AI Assistant</h3>
+        <h3 className="font-semibold">{config.name}</h3>
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"

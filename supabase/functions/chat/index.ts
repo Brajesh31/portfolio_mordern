@@ -1,5 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.39.3'
 import { Configuration, OpenAIApi } from 'npm:openai@4.24.1'
+import config from '../../../src/data/chatbot.json' assert { type: "json" }
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -46,18 +47,22 @@ Deno.serve(async (req) => {
     const openai = new OpenAIApi(configuration)
 
     const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+      model: config.settings.model,
       messages: [
         {
           role: 'system',
-          content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
+          content: config.systemPrompt
         },
         {
           role: 'user',
           content: input
         }
       ],
-      temperature: 0.7,
+      temperature: config.settings.temperature,
+      max_tokens: config.settings.maxTokens,
+      top_p: config.settings.topP,
+      frequency_penalty: config.settings.frequencyPenalty,
+      presence_penalty: config.settings.presencePenalty
     })
 
     if (!completion.data.choices?.[0]?.message) {
@@ -79,12 +84,12 @@ Deno.serve(async (req) => {
     console.error('Error in chat function:', error);
     
     let statusCode = 500;
-    let message = 'An internal error occurred';
+    let message = config.responses.error;
 
     if (error instanceof Error) {
       if (error.message === 'Request body is empty' || error.message === 'Input is required') {
         statusCode = 400;
-        message = error.message;
+        message = config.responses.empty;
       } else if (error.message === 'Supabase configuration is missing' || error.message === 'OpenAI API key is missing') {
         statusCode = 500;
         message = 'Server configuration error';
