@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, X } from 'lucide-react';
 import SectionHeading from '../common/SectionHeading';
 import { Project } from '../../types';
-import { projects } from '../../data/projects';
+import { projects, getUniqueCategories } from '../../data/projects';
 
 const ProjectModal: React.FC<{ project: Project; onClose: () => void }> = ({
   project,
@@ -123,56 +123,57 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({
   );
 };
 
+const CategorySection: React.FC<{
+  category: string;
+  projects: Project[];
+  onProjectClick: (project: Project) => void;
+}> = ({ category, projects, onProjectClick }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="mb-16"
+    >
+      <h2 className="text-2xl font-bold mb-8 text-primary-500">
+        {category}
+        <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+          ({projects.length} projects)
+        </span>
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            onClick={() => onProjectClick(project)}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+};
+
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [filter, setFilter] = useState<'all' | 'featured'>('all');
-
-  const filteredProjects =
-    filter === 'all'
-      ? projects
-      : projects.filter((project) => project.featured);
+  const categories = getUniqueCategories();
 
   return (
     <div className="container-section">
       <SectionHeading
         title="Projects"
-        subtitle="Check out some of my recent work"
+        subtitle="Explore my work across different domains"
       />
 
-      <div className="flex justify-center mb-8">
-        <div className="bg-light-card dark:bg-dark-card p-1 rounded-lg inline-flex">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-md transition-colors ${
-              filter === 'all'
-                ? 'bg-primary-600 text-white'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-            }`}
-          >
-            All Projects
-          </button>
-          <button
-            onClick={() => setFilter('featured')}
-            className={`px-4 py-2 rounded-md transition-colors ${
-              filter === 'featured'
-                ? 'bg-primary-600 text-white'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-            }`}
-          >
-            Featured
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProjects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onClick={() => setSelectedProject(project)}
-          />
-        ))}
-      </div>
+      {categories.map((category) => (
+        <CategorySection
+          key={category}
+          category={category}
+          projects={projects.filter((p) => p.categories.includes(category))}
+          onProjectClick={setSelectedProject}
+        />
+      ))}
 
       <AnimatePresence>
         {selectedProject && (

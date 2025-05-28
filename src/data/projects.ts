@@ -31,6 +31,7 @@ export const projects = [
     ],
     github: 'https://github.com/Brajesh31/emma',
     featured: true,
+    categories: ['AI/ML & Chatbots', 'Productivity Tools & Utilities', 'Backend/API Development']
   },
   {
     id: '2',
@@ -47,6 +48,7 @@ export const projects = [
     ],
     github: 'https://github.com/Brajesh31/thea',
     featured: true,
+    categories: ['AI/ML & Chatbots', 'Healthcare & Wellness', 'Backend/API Development']
   },
   {
     id: '3',
@@ -57,6 +59,7 @@ export const projects = [
     tags: ['React Native', 'Expo', 'Firebase', 'ML Models (Dialogflow)'],
     github: 'https://github.com/Brajesh31/ella',
     featured: true,
+    categories: ['AI/ML & Chatbots', 'Mobile App Development', 'Frontend Development']
   },
   {
     id: '4',
@@ -67,6 +70,7 @@ export const projects = [
     tags: ['Flutter', 'Dart', 'Flame Game Engine', 'Custom UI/UX'],
     github: 'https://github.com/Brajesh31/knights',
     featured: true,
+    categories: ['Game Development', 'Mobile App Development']
   },
   {
     id: '5',
@@ -77,6 +81,7 @@ export const projects = [
     tags: ['HTML5', 'CSS3', 'JavaScript'],
     github: 'https://github.com/Brajesh31/mathematrix',
     featured: false,
+    categories: ['Frontend Development', 'EdTech & Learning']
   },
   {
     id: '6',
@@ -87,105 +92,20 @@ export const projects = [
     tags: ['Next.js', 'MongoDB', 'Python', 'Machine Learning'],
     github: 'https://github.com/Brajesh31/semac',
     featured: true,
-  },
-  {
-    id: '7',
-    title: 'IdeaPool',
-    description:
-      'A collaboration space for developers and designers to pitch their startup/project ideas and find team members to work with.',
-    image: ideapool,
-    tags: ['MERN Stack', 'JWT Auth', 'REST API'],
-    github: 'https://github.com/Brajesh31/ideapool',
-    featured: true,
-  },
-  {
-    id: '8',
-    title: 'FitDeck',
-    description:
-      'A community platform for fitness lovers to connect, share workout routines, follow coaches, and access trending fitness content.',
-    image: fitdeck,
-    tags: ['MERN Stack', 'React Hooks', 'MongoDB Atlas'],
-    github: 'https://github.com/Brajesh31/fitdeck',
-    featured: false,
-  },
-  {
-    id: '9',
-    title: 'ChatterBox',
-    description:
-      'A lightweight chat application that supports real-time communication through dynamic chat rooms with socket-based messaging.',
-    image: chatterbox,
-    tags: ['Node.js', 'Socket.io', 'Express.js'],
-    github: 'https://github.com/Brajesh31/chatterbox',
-    featured: false,
-  },
-  {
-    id: '10',
-    title: "Cap'nShare",
-    description:
-      'A food-sharing app for college campuses aiming to reduce food waste by letting students donate surplus food to others in need.',
-    image: capnshare,
-    tags: ['Ruby on Rails', 'PostgreSQL', 'AWS S3'],
-    github: 'https://github.com/Brajesh31/cap-and-share',
-    featured: false,
-  },
-  {
-    id: '11',
-    title: 'Career Mapper',
-    description:
-      'A decision-making tool for students/job seekers that compares job offers based on living standards, health, crime, and other indices across cities.',
-    image: careerMapper,
-    tags: ['Python', 'React.js', 'MySQL'],
-    github: 'https://github.com/Brajesh31/career-mapper',
-    featured: false,
-  },
-  {
-    id: '12',
-    title: 'Inventory Management System',
-    description:
-      'A web app to help businesses monitor inventory in real time, including product management, sales tracking, and stock forecasting.',
-    image: inventory,
-    tags: ['Python', 'Django', 'SQLite'],
-    github: 'https://github.com/Brajesh31/inventory',
-    featured: false,
-  },
-  {
-    id: '13',
-    title: 'Face Recognition Project',
-    description:
-      'A facial recognition system that identifies and verifies faces in real-time using computer vision and deep learning.',
-    image: faceRecognition,
-    tags: ['Python', 'OpenCV', 'TensorFlow'],
-    github: 'https://github.com/Brajesh31/Face-Recognition',
-    featured: false,
-  },
-  {
-    id: '14',
-    title: 'Lab Agile Planning',
-    description:
-      'A visual Agile board for managing lab and software development workflows with features like sprint creation, task boards, and backlog prioritization.',
-    image: agilePlanner,
-    tags: ['Jira API', 'React.js', 'Agile'],
-    github: 'https://github.com/Brajesh31/agile-planner',
-    featured: false,
-  },
-  {
-    id: '15',
-    title: 'AgroTech',
-    description:
-      'An IoT-integrated agricultural tech solution for monitoring soil moisture, weather, and crop health in real-time, helping farmers increase yield.',
-    image: agrotech,
-    tags: ['React.js', 'Node.js', 'MongoDB', 'IoT'],
-    github: 'https://github.com/Brajesh31/agrotech',
-    featured: false,
-  },
-  {
-    id: '16',
-    title: 'Influencer Sponsor Platform',
-    description:
-      'A professional platform that connects influencers and sponsors for collaboration opportunities, proposal handling, and campaign performance tracking.',
-    image: influencer,
-    tags: ['Next.js', 'React.js', 'PostgreSQL'],
-    github: 'https://github.com/Brajesh31/influencer-platform',
-    featured: false,
-  },
+    categories: ['Full Stack Development', 'EdTech & Learning', 'Data Science & Analytics']
+  }
 ];
+
+// Helper function to get unique categories from projects
+export const getUniqueCategories = () => {
+  const categories = new Set<string>();
+  projects.forEach(project => {
+    project.categories.forEach(category => categories.add(category));
+  });
+  return Array.from(categories).sort();
+};
+
+// Helper function to get projects by category
+export const getProjectsByCategory = (category: string) => {
+  return projects.filter(project => project.categories.includes(category));
+};

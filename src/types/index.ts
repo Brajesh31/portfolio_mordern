@@ -7,6 +7,7 @@ export interface Project {
   github?: string;
   demo?: string;
   featured: boolean;
+  categories: string[];
 }
 
 export interface Certificate {
