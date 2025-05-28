@@ -71,8 +71,8 @@ const FeaturedSection: React.FC<{
   viewAllLink: string;
   children: React.ReactNode;
 }> = ({ title, viewAllLink, children }) => (
-  <div className="py-12 max-w-5xl mx-auto px-8">
-    <div className="flex justify-between items-center mb-8">
+  <div className="py-8 max-w-5xl mx-auto px-8">
+    <div className="flex justify-between items-center mb-6">
       <h2 className="text-3xl font-bold">{title}</h2>
       <Link
         to={viewAllLink}
@@ -253,13 +253,19 @@ function HomePage() {
       </FeaturedSection>
 
       {/* Education Section */}
-      <Education />
+      <div className="mt-8">
+        <Education />
+      </div>
 
       {/* Experience Section */}
-      <Experience />
+      <div className="mt-8">
+        <Experience />
+      </div>
 
       {/* Contact Section */}
-      <Contact />
+      <div className="mt-8">
+        <Contact />
+      </div>
     </div>
   );
 }
