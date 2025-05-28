@@ -24,6 +24,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,6 +33,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    // Cleanup function to abort any pending requests when component unmounts
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,8 +62,18 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
         throw new Error('API key not found');
       }
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+      // Cancel any existing request
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Create new AbortController for this request
+      abortControllerRef.current = new AbortController();
+      const timeoutId = setTimeout(() => {
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
+      }, 30000); // Increased timeout to 30 seconds
 
       const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
         method: 'POST',
@@ -68,7 +88,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
             generated_responses: messages.filter(m => m.isBot).map(m => m.text).slice(-5)
           }
         }),
-        signal: controller.signal,
+        signal: abortControllerRef.current.signal,
       });
 
       clearTimeout(timeoutId);
@@ -94,7 +114,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
-          errorMessage = "The request took too long to complete. Please try again.";
+          errorMessage = "The request took too long to complete. Please try again with a shorter message.";
         } else if (error.message === 'API key not found') {
           errorMessage = "I'm not properly configured yet. Please check the API key setup.";
         }
@@ -107,6 +127,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       }]);
     } finally {
       setIsLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
