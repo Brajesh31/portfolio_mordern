@@ -11,7 +11,6 @@ import Contact from '../components/sections/Contact';
 import ThemeAwareImage from '../components/ThemeAwareImage';
 import { useTheme } from '../components/ThemeProvider';
 import AnimatedJobTitle from '../components/AnimatedJobTitle';
-import { SkillsSphere } from '../components/SkillsSphere';
 
 const jobTitles = [
   "Full Stack Developer",
@@ -241,27 +240,6 @@ function HomePage() {
               {personalInfo.bio.split('\n')[0]}
             </p>
           </motion.div>
-        </div>
-      </div>
-
-      <div className="py-20 bg-gradient-to-b from-transparent to-light-card/20 dark:to-dark-card/20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Technical Expertise
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Explore my technical skills and proficiencies
-            </p>
-          </motion.div>
-
-          <SkillsSphere />
         </div>
       </div>
 
