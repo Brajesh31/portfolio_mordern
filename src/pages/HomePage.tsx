@@ -20,12 +20,12 @@ const jobTitles = [
 ];
 
 const featuredSkills = [
-  { name: 'React', icon: '⚛️', color: '#61DAFB' },
-  { name: 'TypeScript', icon: '📘', color: '#3178C6' },
-  { name: 'Node.js', icon: '🟩', color: '#339933' },
-  { name: 'Python', icon: '🐍', color: '#3776AB' },
-  { name: 'MongoDB', icon: '🍃', color: '#47A248' },
-  { name: 'AWS', icon: '☁️', color: '#FF9900' },
+  { name: 'React', icon: '⚛️', color: '#61DAFB', gradient: 'from-blue-400 to-cyan-400' },
+  { name: 'TypeScript', icon: '📘', color: '#3178C6', gradient: 'from-blue-500 to-blue-600' },
+  { name: 'Node.js', icon: '🟩', color: '#339933', gradient: 'from-green-400 to-green-600' },
+  { name: 'Python', icon: '🐍', color: '#3776AB', gradient: 'from-blue-600 to-blue-800' },
+  { name: 'MongoDB', icon: '🍃', color: '#47A248', gradient: 'from-green-500 to-green-700' },
+  { name: 'AWS', icon: '☁️', color: '#FF9900', gradient: 'from-orange-400 to-orange-600' },
 ];
 
 const SkillBall = ({ skill, index }) => {
@@ -36,38 +36,54 @@ const SkillBall = ({ skill, index }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ scale: 1.1, rotate: 360 }}
-      className="relative group"
+      className="relative group perspective-1000"
     >
       <motion.div
         animate={{
           y: [0, -10, 0],
+          rotateX: [0, 5, 0],
+          rotateY: [0, 10, 0],
         }}
         transition={{
-          duration: 2,
+          duration: 4,
           repeat: Infinity,
           repeatType: "reverse",
           ease: "easeInOut",
           delay: index * 0.2,
         }}
-        className={`w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full flex items-center justify-center text-2xl md:text-3xl
-          shadow-lg transform-gpu perspective-1000 cursor-pointer
-          ${theme === 'dark' 
-            ? 'bg-dark-card hover:bg-dark-bg' 
-            : 'bg-light-card hover:bg-light-bg'} 
+        whileHover={{
+          scale: 1.2,
+          rotateY: 180,
+          transition: { duration: 0.6 }
+        }}
+        className={`w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full flex items-center justify-center text-3xl md:text-4xl
+          preserve-3d cursor-pointer transform-gpu
+          ${theme === 'dark' ? 'bg-dark-card' : 'bg-light-card'}
+          bg-gradient-to-br ${skill.gradient}
+          shadow-[0_0_15px_rgba(0,0,0,0.1)]
+          dark:shadow-[0_0_15px_rgba(255,255,255,0.1)]
           transition-all duration-300`}
         style={{
-          boxShadow: `0 0 20px ${skill.color}20`,
+          transformStyle: 'preserve-3d',
         }}
       >
-        {skill.icon}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br opacity-20 backdrop-blur-sm" />
+        <div className="relative transform-gpu backface-hidden">
+          {skill.icon}
+        </div>
+        <div 
+          className="absolute inset-0 rounded-full flex items-center justify-center backface-hidden"
+          style={{ transform: 'rotateY(180deg)' }}
+        >
+          <span className="text-base font-medium">{skill.name}</span>
+        </div>
       </motion.div>
       
-      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <div className={`px-2 py-1 text-sm rounded ${theme === 'dark' ? 'bg-dark-card' : 'bg-light-card'} shadow-lg whitespace-nowrap`}>
-          {skill.name}
-        </div>
-      </div>
+      <div 
+        className={`absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-4 rounded-full
+          bg-gradient-to-b ${skill.gradient} opacity-30 blur-sm
+          transform-gpu scale-y-50 rotate-x-60`}
+      />
     </motion.div>
   );
 };

@@ -76,6 +76,22 @@ body {
   .icon-box {
     @apply flex items-center justify-center p-3 bg-light-card dark:bg-dark-card rounded-lg border border-gray-800;
   }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-x-60 {
+    transform: rotateX(60deg);
+  }
 }
 
 .3d-card {
