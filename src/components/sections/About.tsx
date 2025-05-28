@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionHeading from '../common/SectionHeading';
+import FlippingImage from '../FlippingImage';
 
 const About = () => {
   const frontendSkills = [
@@ -23,49 +24,52 @@ const About = () => {
     <div className="container-section">
       <SectionHeading title="About Me" subtitle="My personal journey" />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="bg-light-card dark:bg-dark-card rounded-xl p-6 md:p-8 lg:p-10 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300"
-      >
-        <motion.p
-          {...fadeInUp}
-          className="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 space-y-4"
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-12">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="bg-light-card dark:bg-dark-card rounded-xl p-6 md:p-8 lg:p-10 border border-gray-200 dark:border-gray-800 shadow-lg transition-colors duration-300"
         >
-          I'm <strong>Brajesh Kumar</strong>, a passionate and adaptable
-          Computer Science and Engineering student at GL Bajaj Group of
-          Institutions (Batch 2023–2027). With a strong foundation in full-stack
-          development, machine learning, and AI-based systems, I thrive on
-          building real-world tech solutions that are not only innovative but
-          impactful.
-          <br />
-          <br />
-          I bring a hands-on approach to problem-solving, demonstrated through my
-          wide array of projects ranging from intelligent personal assistants
-          like <em>Emma</em>, AI-powered therapy bots like <em>Thea</em>, to
-          full-fledged web platforms like <em>SEMAC</em> and <em>IdeaPool</em>.
-          I've also contributed to game development and ed-tech innovations,
-          combining creativity with code.
-          <br />
-          <br />
-          My toolkit includes a wide stack of technologies: MERN, Python, Django,
-          Flutter, React Native, TensorFlow, GANs, and cloud tools like AWS. I'm
-          constantly learning, experimenting, and pushing boundaries.
-          <br />
-          <br />
-          I've interned with over 10 companies, gaining real-world exposure in
-          Python development, web design, and AI systems. I hold over 100+
-          certifications from platforms like IBM, Coursera, Forage, Google
-          Cloud, Cisco, and more, and I actively participate in hackathons,
-          CTFs, and coding contests (3★ CodeChef, 5★ HackerRank in Python).
-          <br />
-          <br />
-          Beyond code, I'm a team player, quick learner, and a creative thinker
-          — always excited to collaborate and bring new ideas to life.
-        </motion.p>
-      </motion.div>
+          <motion.p
+            {...fadeInUp}
+            className="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 space-y-4"
+          >
+            I'm <strong>Brajesh Kumar</strong>, a passionate and adaptable
+            Computer Science and Engineering student at GL Bajaj Group of
+            Institutions (Batch 2023–2027). With a strong foundation in full-stack
+            development, machine learning, and AI-based systems, I thrive on
+            building real-world tech solutions that are not only innovative but
+            impactful.
+            <br />
+            <br />
+            I bring a hands-on approach to problem-solving, demonstrated through my
+            wide array of projects ranging from intelligent personal assistants
+            like <em>Emma</em>, AI-powered therapy bots like <em>Thea</em>, to
+            full-fledged web platforms like <em>SEMAC</em> and <em>IdeaPool</em>.
+            I've also contributed to game development and ed-tech innovations,
+            combining creativity with code.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="flex justify-center lg:justify-end"
+        >
+          <FlippingImage
+            frontLight="/personal-light.jpg"
+            frontDark="/personal-dark.jpg"
+            backLight="/self-light.jpg"
+            backDark="/self-dark.jpg"
+            alt="Brajesh Kumar"
+            className="w-72 h-72 sm:w-96 sm:h-96"
+          />
+        </motion.div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
         {/* Frontend Skills */}
