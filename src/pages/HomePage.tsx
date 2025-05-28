@@ -10,6 +10,14 @@ import Experience from '../components/sections/Experience';
 import Contact from '../components/sections/Contact';
 import ThemeAwareImage from '../components/ThemeAwareImage';
 import { useTheme } from '../components/ThemeProvider';
+import AnimatedJobTitle from '../components/AnimatedJobTitle';
+
+const jobTitles = [
+  "Full Stack Developer",
+  "UI/UX Designer",
+  "AI Engineer",
+  "Software Architect"
+];
 
 const featuredSkills = [
   { name: 'React', icon: '⚛️', color: '#61DAFB' },
@@ -202,9 +210,10 @@ function HomePage() {
               <span className="block">{personalInfo.fullName.split(' ')[0]}</span>
               <span className="block text-primary-500">{personalInfo.fullName.split(' ')[1]}</span>
             </h1>
-            <h2 className="text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-400 mb-6">
-              {personalInfo.title}
-            </h2>
+            <AnimatedJobTitle 
+              titles={jobTitles}
+              className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6"
+            />
             
             <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
               <Link
