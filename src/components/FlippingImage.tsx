@@ -71,3 +71,5 @@ const FlippingImage: React.FC<FlippingImageProps> = ({
     </div>
   );
 };
+
+export default FlippingImage
