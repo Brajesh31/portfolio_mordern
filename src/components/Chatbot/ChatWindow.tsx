@@ -12,8 +12,6 @@ interface ChatWindowProps {
   onClose: () => void;
 }
 
-type AIProvider = 'openai' | 'deepseek' | 'openrouter';
-
 const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -67,114 +65,36 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       // Create new AbortController for this request
       abortControllerRef.current = new AbortController();
 
-      const openAIKey = import.meta.env.VITE_OPENAI_API_KEY;
-      const deepseekKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
-      const openrouterKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-      const siteUrl = import.meta.env.VITE_SITE_URL;
-
-      // Determine which AI provider to use based on available keys
-      let provider: AIProvider = 'openrouter';
-      if (openAIKey) provider = 'openai';
-      else if (deepseekKey) provider = 'deepseek';
-
-      let response;
-      let botResponse: string;
-
-      switch (provider) {
-        case 'openai':
-          response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${openAIKey}`,
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
             },
-            body: JSON.stringify({
-              model: 'gpt-3.5-turbo',
-              messages: [
-                {
-                  role: 'system',
-                  content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
-                },
-                {
-                  role: 'user',
-                  content: input
-                }
-              ],
-              temperature: 0.7
-            }),
-            signal: abortControllerRef.current.signal
-          });
-          break;
-
-        case 'deepseek':
-          response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${deepseekKey}`,
-            },
-            body: JSON.stringify({
-              model: 'deepseek-chat',
-              messages: [
-                {
-                  role: 'system',
-                  content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
-                },
-                {
-                  role: 'user',
-                  content: input
-                }
-              ]
-            }),
-            signal: abortControllerRef.current.signal
-          });
-          break;
-
-        default: // openrouter
-          if (!openrouterKey || !siteUrl) {
-            throw new Error('Missing OpenRouter configuration');
-          }
-          response = await fetch('https://api.openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${openrouterKey}`,
-              'HTTP-Referer': siteUrl,
-              'X-Title': 'Portfolio AI Chatbot'
-            },
-            body: JSON.stringify({
-              model: 'openchat/openchat-3.5-0106:free',
-              messages: [
-                {
-                  role: 'system',
-                  content: "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly."
-                },
-                {
-                  role: 'user',
-                  content: input
-                }
-              ]
-            }),
-            signal: abortControllerRef.current.signal
-          });
-      }
+            {
+              role: 'user',
+              content: input
+            }
+          ],
+          temperature: 0.7
+        }),
+        signal: abortControllerRef.current.signal
+      });
 
       if (!response.ok) {
-        console.error('API Error:', response.status, response.statusText);
-        botResponse = "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.";
-      } else {
-        try {
-          const data = await response.json();
-          botResponse = data.choices?.[0]?.message?.content?.trim() || 
-            "I couldn't generate a proper response. Please try rephrasing your question.";
-        } catch (error) {
-          console.error('Response parsing error:', error);
-          botResponse = "I encountered an issue processing the response. Please try again.";
-        }
+        throw new Error('Failed to get response from AI');
       }
 
+      const data = await response.json();
       const botMessage = {
-        text: botResponse,
+        text: data.choices[0].message.content.trim(),
         isBot: true,
         timestamp: new Date(),
       };
@@ -188,8 +108,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = "The request took too long. Please try a shorter message.";
-        } else if (error.message.includes('configuration')) {
-          errorMessage = "I'm currently unavailable due to a configuration issue. Please contact the site administrator.";
         }
       }
 
@@ -280,7 +198,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
           </button>
         </div>
         <div className="text-xs text-center text-gray-500 mt-2">
-          Powered by AI
+          Powered by OpenAI
         </div>
       </form>
     </div>
