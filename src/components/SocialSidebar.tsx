@@ -35,7 +35,7 @@ const socialLinks = [
   {
     name: 'WhatsApp',
     icon: MessageCircle,
-    href: 'https://wa.me/917452971645',
+    href: 'https://wa.me/917452971645?text=Hi%20Brajesh%2C%0A%0AI%20came%20across%20your%20profile%20and%20found%20it%20really%20interesting!%20I%27d%20love%20to%20connect%20and%20discuss%20potential%20opportunities%20for%20collaboration%20or%20work%20together.%0A%0ALooking%20forward%20to%20your%20response.%0A%0AThanks!',
     color: 'hover:bg-[#25D366]',
     ariaLabel: 'Message on WhatsApp'
   },
