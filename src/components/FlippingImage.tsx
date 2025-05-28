@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 
@@ -35,8 +35,9 @@ const FlippingImage: React.FC<FlippingImageProps> = ({
       >
         {/* Front */}
         <motion.div
-          className="absolute inset-0 backface-hidden rounded-full overflow-hidden
-            shadow-lg hover:shadow-xl transition-shadow duration-300"
+          className="absolute inset-0 backface-hidden rounded-xl overflow-hidden
+            shadow-lg hover:shadow-xl transition-shadow duration-300
+            border-2 border-primary-500/20"
         >
           <img
             src={theme === 'dark' ? frontDark : frontLight}
@@ -47,8 +48,9 @@ const FlippingImage: React.FC<FlippingImageProps> = ({
 
         {/* Back */}
         <motion.div
-          className="absolute inset-0 backface-hidden rounded-full overflow-hidden
-            shadow-lg hover:shadow-xl transition-shadow duration-300"
+          className="absolute inset-0 backface-hidden rounded-xl overflow-hidden
+            shadow-lg hover:shadow-xl transition-shadow duration-300
+            border-2 border-primary-500/20"
           style={{ transform: 'rotateY(180deg)' }}
         >
           <img
