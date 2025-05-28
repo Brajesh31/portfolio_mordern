@@ -11,7 +11,6 @@ import Contact from '../components/sections/Contact';
 import ThemeAwareImage from '../components/ThemeAwareImage';
 import { useTheme } from '../components/ThemeProvider';
 
-// Featured skills with their icons
 const featuredSkills = [
   { name: 'React', icon: '⚛️', color: '#61DAFB' },
   { name: 'TypeScript', icon: '📘', color: '#3178C6' },
@@ -21,7 +20,7 @@ const featuredSkills = [
   { name: 'AWS', icon: '☁️', color: '#FF9900' },
 ];
 
-const SkillBall: React.FC<{ skill: typeof featuredSkills[0]; index: number }> = ({ skill, index }) => {
+const SkillBall = ({ skill, index }) => {
   const { theme } = useTheme();
   
   return (
@@ -43,7 +42,7 @@ const SkillBall: React.FC<{ skill: typeof featuredSkills[0]; index: number }> = 
           ease: "easeInOut",
           delay: index * 0.2,
         }}
-        className={`w-24 h-24 rounded-full flex items-center justify-center text-3xl
+        className={`w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center text-2xl md:text-3xl
           shadow-lg transform-gpu perspective-1000 cursor-pointer
           ${theme === 'dark' 
             ? 'bg-dark-card hover:bg-dark-bg' 
@@ -56,7 +55,6 @@ const SkillBall: React.FC<{ skill: typeof featuredSkills[0]; index: number }> = 
         {skill.icon}
       </motion.div>
       
-      {/* Tooltip */}
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <div className={`px-2 py-1 text-sm rounded ${theme === 'dark' ? 'bg-dark-card' : 'bg-light-card'} shadow-lg whitespace-nowrap`}>
           {skill.name}
@@ -66,14 +64,10 @@ const SkillBall: React.FC<{ skill: typeof featuredSkills[0]; index: number }> = 
   );
 };
 
-const FeaturedSection: React.FC<{
-  title: string;
-  viewAllLink: string;
-  children: React.ReactNode;
-}> = ({ title, viewAllLink, children }) => (
-  <div className="py-8 max-w-5xl mx-auto px-8">
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="text-3xl font-bold">{title}</h2>
+const FeaturedSection = ({ title, viewAllLink, children }) => (
+  <div className="py-6 md:py-8 max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
+    <div className="flex justify-between items-center mb-4 md:mb-6">
+      <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
       <Link
         to={viewAllLink}
         className="flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
@@ -85,7 +79,7 @@ const FeaturedSection: React.FC<{
   </div>
 );
 
-const CertificateCard: React.FC<{ certificate: typeof certificates[0] }> = ({ certificate }) => {
+const CertificateCard = ({ certificate }) => {
   const { theme } = useTheme();
   
   return (
@@ -97,11 +91,11 @@ const CertificateCard: React.FC<{ certificate: typeof certificates[0] }> = ({ ce
       className={`bg-light-card dark:bg-dark-card rounded-xl overflow-hidden transition-all duration-300 group`}
     >
       <div
-        className="h-48 bg-cover bg-center"
+        className="h-40 md:h-48 bg-cover bg-center"
         style={{ backgroundImage: `url(${certificate.image})` }}
       />
-      <div className="p-6">
-        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+      <div className="p-4 md:p-6">
+        <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 dark:text-white">
           {certificate.title}
         </h3>
         <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
@@ -116,7 +110,7 @@ const CertificateCard: React.FC<{ certificate: typeof certificates[0] }> = ({ ce
   );
 };
 
-const ProjectCard: React.FC<{ project: typeof projects[0] }> = ({ project }) => {
+const ProjectCard = ({ project }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -126,11 +120,11 @@ const ProjectCard: React.FC<{ project: typeof projects[0] }> = ({ project }) => 
       className="bg-light-card dark:bg-dark-card rounded-xl overflow-hidden group transition-all duration-300"
     >
       <div
-        className="h-48 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+        className="h-40 md:h-48 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
         style={{ backgroundImage: `url(${project.image})` }}
       />
-      <div className="p-6">
-        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-400 transition-colors">
+      <div className="p-4 md:p-6">
+        <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-400 transition-colors">
           {project.title}
         </h3>
         <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
@@ -167,15 +161,15 @@ function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="container-section min-h-screen flex flex-col justify-center pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="container-section min-h-[90vh] flex flex-col justify-center pt-16 md:pt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex justify-center lg:justify-end order-1 lg:order-none"
           >
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80">
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
               <motion.div 
                 initial={{ rotate: 0 }}
                 animate={{ rotate: 360 }}
@@ -203,16 +197,17 @@ function HomePage() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center lg:text-left"
           >
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
               <span className="block">{personalInfo.fullName.split(' ')[0]}</span>
               <span className="block text-primary-500">{personalInfo.fullName.split(' ')[1]}</span>
             </h1>
-            <h2 className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 mb-8">
+            <h2 className="text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-400 mb-6">
               {personalInfo.title}
             </h2>
             
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-6">
               <Link
                 to="/contact"
                 className="btn btn-primary flex items-center gap-2"
@@ -233,7 +228,7 @@ function HomePage() {
               </button>
             </div>
             
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+            <p className="text-base md:text-lg text-gray-600 dark:text-gray-400">
               {personalInfo.bio.split('\n')[0]}
             </p>
           </motion.div>
@@ -242,7 +237,7 @@ function HomePage() {
 
       {/* Featured Skills Section */}
       <FeaturedSection title="Featured Skills" viewAllLink="/skills">
-        <div className="flex flex-wrap justify-center gap-12">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
           {featuredSkills.map((skill, index) => (
             <SkillBall key={skill.name} skill={skill} index={index} />
           ))}
@@ -251,7 +246,7 @@ function HomePage() {
 
       {/* Featured Projects Section */}
       <FeaturedSection title="Featured Projects" viewAllLink="/projects">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -260,7 +255,7 @@ function HomePage() {
 
       {/* Featured Certificates Section */}
       <FeaturedSection title="Featured Certificates" viewAllLink="/certificates">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {featuredCertificates.map((certificate) => (
             <CertificateCard key={certificate.id} certificate={certificate} />
           ))}
@@ -268,17 +263,17 @@ function HomePage() {
       </FeaturedSection>
 
       {/* Education Section */}
-      <div className="mt-8">
+      <div className="mt-4 md:mt-6">
         <Education />
       </div>
 
       {/* Experience Section */}
-      <div className="mt-8">
+      <div className="mt-4 md:mt-6">
         <Experience />
       </div>
 
       {/* Contact Section */}
-      <div className="mt-8">
+      <div className="mt-4 md:mt-6">
         <Contact />
       </div>
     </div>
