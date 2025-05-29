@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './components/ThemeProvider';
 import { AnimatedBackground } from './components/AnimatedBackground';
+import FallingStarsBackground from './components/FallingStarsBackground';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { ScrollToTop } from './components/common/ScrollToTop';
@@ -29,6 +30,7 @@ function App() {
             minSize={300}
             maxSize={600}
           />
+          <FallingStarsBackground />
           
           <Navbar />
           <SocialSidebar />
@@ -57,4 +59,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
