@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './components/ThemeProvider';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import FallingStarsBackground from './components/FallingStarsBackground';
+import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { ScrollToTop } from './components/common/ScrollToTop';
@@ -25,6 +26,7 @@ function App() {
     <ThemeProvider>
       <Router>
         <div className="relative min-h-screen flex flex-col transition-colors duration-300 dark:bg-dark-bg bg-light-bg text-gray-900 dark:text-white">
+          <LoadingScreen />
           <AnimatedBackground 
             count={6}
             minSize={300}
