@@ -33,6 +33,32 @@ const profiles: Profile[] = [
     category: 'Coding'
   },
   {
+    name: 'HackerRank',
+    username: 'bk117134',
+    url: 'https://www.hackerrank.com/profile/bk117134',
+    logo: '/logos/hackerrank.png',
+    category: 'Coding'
+  },
+  {
+    name: 'Codeforces',
+    username: 'bk117134',
+    url: 'https://codeforces.com/profile/bk117134',
+    logo: '/logos/codeforces.png',
+    category: 'Coding'
+  },
+  {
+    name: 'freeCodeCamp',
+    url: 'https://www.freecodecamp.org/fccefc996a3-a55c-4b7d-bca0-b59b68536279',
+    logo: '/logos/freecodecamp.png',
+    category: 'Coding'
+  },
+  {
+    name: 'GeeksforGeeks',
+    logo: '/logos/gfg.png',
+    url: '#',
+    category: 'Coding'
+  },
+  {
     name: 'Google Cloud',
     url: 'https://www.cloudskillsboost.google/public_profiles/9c512a6d-9347-491d-a16f-1db7651126d9',
     logo: '/logos/gcloud.png',
@@ -43,12 +69,6 @@ const profiles: Profile[] = [
     url: 'https://learn.microsoft.com/en-us/users/brajeshkumar-2922/',
     logo: '/logos/mslearn.png',
     category: 'Learning'
-  },
-  {
-    name: 'C# Corner',
-    url: 'https://www.c-sharpcorner.com/members/brajesh-kumar62',
-    logo: '/logos/csharp.png',
-    category: 'Professional'
   },
   {
     name: 'Coursera',
@@ -63,10 +83,16 @@ const profiles: Profile[] = [
     category: 'Learning'
   },
   {
-    name: 'Credly',
-    url: 'https://www.credly.com/users/brajesh-kumar.d85228d3',
-    logo: '/logos/credly.png',
-    category: 'Professional'
+    name: 'edX',
+    url: 'https://profile.edx.org/u/brajesh31_4',
+    logo: '/logos/edx.png',
+    category: 'Learning'
+  },
+  {
+    name: 'Cisco Network Academy',
+    url: 'https://www.netacad.com/profile?&tab=profile',
+    logo: '/logos/cisco.png',
+    category: 'Learning'
   },
   {
     name: 'Cognitive Class',
@@ -81,34 +107,47 @@ const profiles: Profile[] = [
     category: 'Learning'
   },
   {
-    name: 'HackerRank',
-    logo: '/logos/hackerrank.png',
-    url: '#',
-    category: 'Coding'
-  },
-  {
-    name: 'Codeforces',
-    logo: '/logos/codeforces.png',
-    url: '#',
-    category: 'Coding'
-  },
-  {
-    name: 'GeeksforGeeks',
-    logo: '/logos/gfg.png',
-    url: '#',
-    category: 'Coding'
-  },
-  {
-    name: 'freeCodeCamp',
-    logo: '/logos/freecodecamp.png',
-    url: '#',
+    name: 'SoloLearn',
+    username: '32005015',
+    url: 'https://www.sololearn.com/en/profile/32005015',
+    logo: '/logos/sololearn.png',
     category: 'Learning'
+  },
+  {
+    name: 'C# Corner',
+    url: 'https://www.c-sharpcorner.com/members/brajesh-kumar62',
+    logo: '/logos/csharp.png',
+    category: 'Professional'
+  },
+  {
+    name: 'Credly',
+    url: 'https://www.credly.com/users/brajesh-kumar.d85228d3',
+    logo: '/logos/credly.png',
+    category: 'Professional'
+  },
+  {
+    name: 'Unstop',
+    url: 'https://unstop.com/u/Brajesh3101',
+    logo: '/logos/unstop.png',
+    category: 'Professional'
+  },
+  {
+    name: 'Campus Code',
+    url: 'https://www.campuscode.in/',
+    logo: '/logos/campuscode.png',
+    category: 'Professional'
+  },
+  {
+    name: 'Forage',
+    url: 'https://www.theforage.com/profile/qXFNjXrD3s5vM5xDh',
+    logo: '/logos/forage.png',
+    category: 'Professional'
   },
   {
     name: 'Infosys Springboard',
     url: 'https://infyspringboard.onwingspan.com/web/en/app/profile/competency/certificate',
     logo: '/logos/infosys.png',
-    category: 'Learning'
+    category: 'Professional'
   }
 ];
 
