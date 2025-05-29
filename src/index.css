@@ -92,6 +92,26 @@ body {
   .rotate-x-60 {
     transform: rotateX(60deg);
   }
+
+  .bg-size-200 {
+    background-size: 200% 100%;
+  }
+
+  .animate-gradient {
+    animation: gradient 8s linear infinite;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .3d-card {
