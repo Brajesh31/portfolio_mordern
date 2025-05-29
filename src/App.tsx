@@ -12,6 +12,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EducationPage from './pages/EducationPage';
 import ExperiencePage from './pages/ExperiencePage';
+import ProfilesPage from './pages/ProfilesPage';
 import ProjectsPage from './pages/ProjectsPage';
 import CertificatesPage from './pages/CertificatesPage';
 import SkillsPage from './pages/SkillsPage';
@@ -39,6 +40,7 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/education" element={<EducationPage />} />
               <Route path="/experience" element={<ExperiencePage />} />
+              <Route path="/profiles" element={<ProfilesPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/certificates" element={<CertificatesPage />} />
               <Route path="/skills" element={<SkillsPage />} />
@@ -54,5 +56,3 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;
