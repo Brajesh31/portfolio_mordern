@@ -20,6 +20,7 @@ import CertificatesPage from './pages/CertificatesPage';
 import SkillsPage from './pages/SkillsPage';
 import ContactPage from './pages/ContactPage';
 import ServicesPage from './pages/ServicesPage';
+import BlogsPage from './pages/BlogsPage';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               <Route path="/certificates" element={<CertificatesPage />} />
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/services" element={<ServicesPage />} />
+              <Route path="/blogs" element={<BlogsPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Routes>
           </main>

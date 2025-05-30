@@ -53,3 +53,19 @@ export interface ContactFormData {
   subject: string;
   message: string;
 }
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  summary: string;
+  content: string;
+  date: string;
+  readingTime: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  images: string[];
+  tags: string[];
+  featured?: boolean;
+}
