@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ChevronLeft, ChevronRight, Clock, Tag } from 'lucide-react';
-import { blogPosts, getUniqueTags, searchPosts } from '../../data/blogs';
+import { blogPosts, getUniqueTags, searchPosts, getFeaturedPosts } from '../../data/blogs';
 import { BlogPost } from '../../types';
 import SectionHeading from '../common/SectionHeading';
 
