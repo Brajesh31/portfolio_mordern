@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import SectionHeading from '../common/SectionHeading';
@@ -88,6 +88,15 @@ const skillsData: SkillCategory[] = [
   },
 ];
 
+const shuffleArray = <T extends unknown>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 const SkillIcon: React.FC<{ skill: { name: string; icon: string } }> = ({ skill }) => {
   return (
     <motion.div
@@ -105,6 +114,12 @@ const SkillIcon: React.FC<{ skill: { name: string; icon: string } }> = ({ skill 
 };
 
 const SkillCategorySection: React.FC<{ category: SkillCategory; delay: number }> = ({ category, delay }) => {
+  const [randomizedSkills, setRandomizedSkills] = useState(category.skills);
+
+  useEffect(() => {
+    setRandomizedSkills(shuffleArray(category.skills));
+  }, [category.skills]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -116,7 +131,7 @@ const SkillCategorySection: React.FC<{ category: SkillCategory; delay: number }>
       <h3 className="text-xl font-bold mb-6 text-primary-400">{category.title}</h3>
       
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {category.skills.map((skill) => (
+        {randomizedSkills.map((skill) => (
           <SkillIcon key={skill.name} skill={skill} />
         ))}
       </div>
