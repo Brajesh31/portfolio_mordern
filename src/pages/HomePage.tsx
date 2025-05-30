@@ -8,6 +8,7 @@ import { certificates } from '../data/certificates';
 import Education from '../components/sections/Education';
 import Experience from '../components/sections/Experience';
 import Contact from '../components/sections/Contact';
+import Stats from '../components/sections/Stats';
 import ThemeAwareImage from '../components/ThemeAwareImage';
 import { useTheme } from '../components/ThemeProvider';
 import AnimatedJobTitle from '../components/AnimatedJobTitle';
@@ -259,6 +260,8 @@ function HomePage() {
         </div>
       </div>
 
+      <Stats />
+
       <FeaturedSection title="Featured Skills" viewAllLink="/skills">
         <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8">
           {featuredSkills.map((skill, index) => (
@@ -299,3 +302,5 @@ function HomePage() {
 }
 
 export default HomePage;
+
+export default HomePage
