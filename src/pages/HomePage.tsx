@@ -29,14 +29,30 @@ const featuredSkills = [
   { name: 'AWS', icon: '☁️', color: '#FF9900', gradient: 'from-orange-400 to-orange-600' },
 ];
 
+const slideVariants = {
+  hidden: (direction: 'left' | 'right') => ({
+    x: direction === 'left' ? -100 : 100,
+    opacity: 0
+  }),
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
 const SkillBall = ({ skill, index }) => {
   const { theme } = useTheme();
   
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true }}
       className="relative group perspective-1000"
     >
       <motion.div
@@ -89,8 +105,15 @@ const SkillBall = ({ skill, index }) => {
   );
 };
 
-const FeaturedSection = ({ title, viewAllLink, children }) => (
-  <div className="py-4 md:py-6 max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
+const FeaturedSection = ({ title, viewAllLink, children, direction = 'left' }) => (
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: "-100px" }}
+    variants={slideVariants}
+    custom={direction}
+    className="py-4 md:py-6 max-w-6xl mx-auto px-4 md:px-6 lg:px-8"
+  >
     <div className="flex justify-between items-center mb-4">
       <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
       <Link
@@ -101,7 +124,7 @@ const FeaturedSection = ({ title, viewAllLink, children }) => (
       </Link>
     </div>
     {children}
-  </div>
+  </motion.div>
 );
 
 const CertificateCard = ({ certificate }) => {
@@ -185,7 +208,14 @@ function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <div className="container-section min-h-[85vh] flex flex-col justify-center pt-16">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideVariants}
+        custom="left"
+        className="container-section min-h-[85vh] flex flex-col justify-center pt-16"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
@@ -258,11 +288,19 @@ function HomePage() {
             </p>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      <Stats />
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideVariants}
+        custom="right"
+      >
+        <Stats />
+      </motion.div>
 
-      <FeaturedSection title="Featured Skills" viewAllLink="/skills">
+      <FeaturedSection title="Featured Skills" viewAllLink="/skills" direction="left">
         <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8">
           {featuredSkills.map((skill, index) => (
             <SkillBall key={skill.name} skill={skill} index={index} />
@@ -270,7 +308,7 @@ function HomePage() {
         </div>
       </FeaturedSection>
 
-      <FeaturedSection title="Featured Projects" viewAllLink="/projects">
+      <FeaturedSection title="Featured Projects" viewAllLink="/projects" direction="right">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
@@ -278,7 +316,7 @@ function HomePage() {
         </div>
       </FeaturedSection>
 
-      <FeaturedSection title="Featured Certificates" viewAllLink="/certificates">
+      <FeaturedSection title="Featured Certificates" viewAllLink="/certificates" direction="left">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {featuredCertificates.map((certificate) => (
             <CertificateCard key={certificate.id} certificate={certificate} />
@@ -286,17 +324,38 @@ function HomePage() {
         </div>
       </FeaturedSection>
 
-      <div className="mt-2">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideVariants}
+        custom="right"
+        className="mt-2"
+      >
         <Education />
-      </div>
+      </motion.div>
 
-      <div className="mt-2">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideVariants}
+        custom="left"
+        className="mt-2"
+      >
         <Experience />
-      </div>
+      </motion.div>
 
-      <div className="mt-2">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideVariants}
+        custom="right"
+        className="mt-2"
+      >
         <Contact />
-      </div>
+      </motion.div>
     </div>
   );
 }
