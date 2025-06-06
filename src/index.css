@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-light-bg dark:bg-dark-bg text-gray-900 dark:text-white font-sans;
+  overflow-x: hidden;
+}
+
+.vertical-timeline-element-content {
+  @apply bg-light-card dark:bg-dark-card border-primary-600 border shadow-md rounded-lg;
+}
+
+@layer components {
+  .heading {
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold mb-6;
+  }
+
+  .subheading {
+    @apply text-xl sm:text-2xl font-semibold mb-4;
+  }
+
+  .nav-link {
+    @apply px-4 py-2 text-sm md:text-base relative hover:text-primary-400 transition-all duration-300
+    after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-primary-500
+    after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:transition-all
+    hover:after:w-3/4;
+  }
+
+  .nav-link.active {
+    @apply text-primary-500 after:w-3/4;
+  }
+
+  .container-section {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24;
+  }
+
+  .skill-tag {
+    @apply bg-light-card dark:bg-dark-card text-gray-900 dark:text-white px-4 py-2 rounded-full 
+    border border-primary-600/40 shadow-md transition-all duration-300
+    hover:border-primary-400 hover:scale-105
+    dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]
+    hover:shadow-[0_0_15px_rgba(59,130,246,0.2)]
+    dark:hover:bg-primary-500/10 hover:bg-primary-500/5;
+  }
+
+  .card {
+    @apply bg-light-card dark:bg-dark-card rounded-xl shadow-md p-6 overflow-hidden transition-all 
+    duration-300 relative border border-gray-800/20 dark:border-gray-800
+    hover:border-primary-500/50 dark:hover:border-primary-500/50
+    hover:shadow-lg dark:hover:shadow-primary-500/10 hover:shadow-primary-500/5
+    hover:scale-[1.02] hover:-translate-y-1
+    dark:hover:bg-primary-500/5 hover:bg-primary-500/5;
+  }
+
+  .btn {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center
+    hover:scale-105 hover:shadow-lg
+    dark:hover:shadow-primary-500/20 hover:shadow-primary-500/10;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 shadow-md
+    dark:hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]
+    hover:shadow-[0_0_20px_rgba(59,130,246,0.3)];
+  }
+
+  .btn-outline {
+    @apply border border-primary-600 text-primary-500 
+    hover:bg-primary-600/10 dark:hover:bg-primary-600/20
+    dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)]
+    hover:shadow-[0_0_15px_rgba(59,130,246,0.15)];
+  }
+
+  .form-input {
+    @apply bg-light-card dark:bg-dark-card border border-gray-700/50 rounded-lg px-4 py-3 w-full 
+    text-gray-900 dark:text-white transition-all duration-300
+    focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+    hover:border-primary-500/50 dark:hover:border-primary-500/50
+    dark:hover:shadow-[0_0_10px_rgba(59,130,246,0.1)]
+    hover:shadow-[0_0_10px_rgba(59,130,246,0.05)];
+  }
+  
+  .icon-box {
+    @apply flex items-center justify-center p-3 bg-light-card dark:bg-dark-card rounded-lg 
+    border border-gray-800/20 dark:border-gray-800 transition-all duration-300
+    hover:border-primary-500/50 dark:hover:border-primary-500/50
+    hover:shadow-lg dark:hover:shadow-primary-500/20 hover:shadow-primary-500/10
+    hover:scale-110 dark:hover:bg-primary-500/10 hover:bg-primary-500/5;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-x-60 {
+    transform: rotateX(60deg);
+  }
+
+  .bg-size-200 {
+    background-size: 200% 100%;
+  }
+
+  .animate-gradient {
+    animation: gradient 8s linear infinite;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.3d-card {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.parallax {
+  transform: translateZ(-10px) scale(2);
+}
+
+.vertical-timeline::before {
+  background: #2563eb !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-dark-300;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-dark-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-dark-200;
+}

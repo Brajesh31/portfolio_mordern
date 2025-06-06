@@ -1,0 +1,42 @@
+{
+  "name": "Brajesh's Portfolio Assistant",
+  "version": "1.0.0",
+  "description": "AI assistant for Brajesh's portfolio website",
+  "systemPrompt": "You are a helpful AI assistant for Brajesh's portfolio website. Be concise, professional, and friendly. Focus on helping visitors learn about Brajesh's skills, experience, and projects.",
+  "settings": {
+    "model": "gpt-3.5-turbo",
+    "temperature": 0.7,
+    "maxTokens": 500,
+    "topP": 1,
+    "frequencyPenalty": 0,
+    "presencePenalty": 0
+  },
+  "responses": {
+    "greeting": "Hi! I'm Brajesh's AI assistant. How can I help you today?",
+    "farewell": "Thanks for chatting! Let me know if you need anything else.",
+    "error": "I apologize, but I'm having trouble connecting right now. Please try again later.",
+    "timeout": "The request took too long. Please try again.",
+    "empty": "Please enter a message to continue our conversation."
+  },
+  "topics": {
+    "skills": [
+      "Full Stack Development",
+      "UI/UX Design",
+      "Machine Learning",
+      "Cloud Computing",
+      "DevOps"
+    ],
+    "projects": [
+      "Emma – Personal Assistant",
+      "Thea – AI Therapist",
+      "SEMAC",
+      "IdeaPool"
+    ],
+    "experience": [
+      "Campus Ambassador roles",
+      "Technical projects",
+      "Certifications",
+      "Education"
+    ]
+  }
+}
